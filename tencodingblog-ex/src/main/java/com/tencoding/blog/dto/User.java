@@ -20,21 +20,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-//1. mysql server 실행
-//2. 테이블 생성
-//3. 제약 추가
-
 @Data
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-//@DynamicInsert // null 필드가 들어올때 무시하라 --> 디폴트 값 선언하면 적용 됨!
 public class User {
-
-	@Id //Primary key PK로 
-	@GeneratedValue(strategy = GenerationType.IDENTITY) //프로젝트에서 연결된 DB 넘버링 전략을 따라간다.
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	@Column(nullable = false, length = 30)
@@ -46,29 +41,11 @@ public class User {
 	@Column(nullable = false, length = 50)
 	private String email;
 	
-	//@ColumnDefault(" 'user' ") //문자라는 것을 알려주어야 한다.
-	//DynamicInsert를 안쓰고 직접 입력하겠금 만듦!
-	@Enumerated(EnumType.STRING) //DB에게 String 타입이라고 알려줘야 한다.
-	private RoleType role; //admin, user, manager : Enum 타입으로 변경
+	@Enumerated(EnumType.STRING)
+	private RoleType role;
 	
-	@CreationTimestamp //시간이 자동으로 입력된다.
+	@CreationTimestamp
 	private Timestamp createDate;
 	
+	
 }
-
-
-/*
- * 
- * {
-
-	"username" : "홍길동",
-	"password" : "asd1234",
-	"email" : "a@naver.com",
-
-}
- * 
- * 
- * 
- * 
- */
-
