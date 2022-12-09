@@ -43,7 +43,7 @@ public class User {
 	@Column(nullable = false, length = 100)
 	private String password;
 	
-	@Column(nullable = false, length = 50)
+	@Column(nullable = true, length = 50)
 	private String email;
 	
 	//@ColumnDefault(" 'user' ") //문자라는 것을 알려주어야 한다.
