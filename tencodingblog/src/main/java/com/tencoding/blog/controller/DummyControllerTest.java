@@ -2,11 +2,14 @@ package com.tencoding.blog.controller;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -74,6 +77,7 @@ public class DummyControllerTest {
 	}
 
 	// 5.회원수정
+	@Transactional
 	@PutMapping("/user/{id}")
 	public User updateUser(@PathVariable int id, @RequestBody User reqUser) {
 
@@ -92,6 +96,23 @@ public class DummyControllerTest {
 		
 //		userRepository.save(user); //DB에 수정 후 저장
 		
-		return null;
+		return user;
 	}
+	
+	//6. 회원삭제
+	@DeleteMapping("/user/{id}")
+	public String delete(@PathVariable int id) {
+		
+		try {
+			userRepository.deleteById(id);			
+		} catch (Exception e) {
+			return "사용자를 찾을 수 없습니다!";
+		}
+		
+		
+		return  id + " : 삭제되었습니다!";
+
+	}
+	
+	
 }
