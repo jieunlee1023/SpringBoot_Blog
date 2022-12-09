@@ -21,4 +21,9 @@ public class TempController {
 	public String tempJsp() {
 		return "/test";
 	} 
+	
+	@GetMapping("/temp/join")
+	public String join() {
+		return "/join";
+	}
 }

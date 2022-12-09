@@ -3,6 +3,7 @@ package com.tencoding.blog.controller;
 import java.util.List;
 
 import javax.transaction.Transactional;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tencoding.blog.dto.User;
+import com.tencoding.blog.model.RoleType;
 import com.tencoding.blog.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,8 +40,8 @@ public class DummyControllerTest {
 	public String signUp(@RequestBody User user) {
 
 		// 로직수행
-		// log.info(">>> User:{}",user);
-		// user.setRole(RoleType.USER);
+		log.info(">>> User:{}", user);
+		user.setRole(RoleType.USER);
 		// ...validation check
 		userRepository.save(user);
 
@@ -81,35 +84,60 @@ public class DummyControllerTest {
 	@PutMapping("/user/{id}")
 	public User updateUser(@PathVariable int id, @RequestBody User reqUser) {
 
-		log.info(">>>id : {}, >>> password : {}, >>> email :{}", 
-				id, reqUser.getPassword(), reqUser.getEmail());
+		log.info(">>>id : {}, >>> password : {}, >>> email :{}", id, reqUser.getPassword(), reqUser.getEmail());
 		// 사용자 여부 먼저 확인 (select)
 		// 사용자 있다면 넘겨 받은 데이터를 가공해서 저장
 		// 사용자가 없다면 클라이언트에게 잘못된 요청, 없는 사용자 입니다.
-		
-		User user = userRepository.findById(id).orElseThrow(()->{
+
+		User user = userRepository.findById(id).orElseThrow(() -> {
 			return new IllegalArgumentException("잘못된 요청입니다. 수정에 실패하였습니다.");
 		});
-		
+
 		user.setPassword(reqUser.getPassword());
 		user.setEmail(reqUser.getEmail());
-		
+
 //		userRepository.save(user); //DB에 수정 후 저장
-		
+
 		return user;
 	}
-	
-	//6. 회원삭제
+
+	// 6. 회원삭제
 	@DeleteMapping("/user/{id}")
 	public String delete(@PathVariable int id) {
-		
+
 		try {
-			userRepository.deleteById(id);			
+			userRepository.deleteById(id);
 		} catch (Exception e) {
 			return "사용자를 찾을 수 없습니다!";
 		}
-		return  id + " : 삭제되었습니다!";
+		return id + " : 삭제되었습니다!";
 	}
-	
-	
+
+	// 스프링 기본 파싱 전략
+	// http://localhost:9090/blog/dummy/user/test?name=홍길동&age=10
+	// form 태그로 넘어오는 녀석도 처리가 가능하다.
+	@GetMapping("/user/test") // ?
+	public String getTest(String name, int age) {
+
+		System.err.println("name: " + name);
+		System.err.println("age: " + age);
+
+		return "";
+	}
+
+	// form
+	// form 에서 넘긴 key 값과 매개변수명이 같아야 한다.
+	@PostMapping("/signup2")
+	public String signUp2(String username, String password, String email) {
+
+		User reqUser = new User();
+		reqUser.setUsername(username);
+		reqUser.setPassword(password);
+		reqUser.setEmail(email);
+		reqUser.setRole(RoleType.USER);
+		userRepository.save(reqUser);
+
+		return "회원가입이 완료되었습니다!";
+	}
+
 }

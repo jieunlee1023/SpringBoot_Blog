@@ -9,7 +9,5 @@ import com.tencoding.blog.dto.User;
 // @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 											 //<테이블명, PK의 데이터타입>
-
-	
 	
 }

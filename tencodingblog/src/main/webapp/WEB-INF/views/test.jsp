@@ -1,15 +1,24 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="EUC-KR"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
+
 <body>
-	<%
-	System.out.print("여기가 동작할까요?");
-	%>
-	<h1>JSP 파일로 옴 !</h1>
+
+	<h2>This is a heading</h2>
+	<p>여기는 p태그 1</p>
+	<p id="p1">여기는 p태그 2</p>
+
+	<button>click me</button>
+
+
+	<script src="/blog/js/test.js"></script>
 </body>
 </html>
