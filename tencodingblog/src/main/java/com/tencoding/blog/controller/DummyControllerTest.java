@@ -108,10 +108,7 @@ public class DummyControllerTest {
 		} catch (Exception e) {
 			return "사용자를 찾을 수 없습니다!";
 		}
-		
-		
 		return  id + " : 삭제되었습니다!";
-
 	}
 	
 	
