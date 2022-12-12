@@ -5,6 +5,10 @@ let index = {
 		$("#btn--save").bind("click", () => {
 			this.save();
 		});
+		$('#btn--login').bind('click', () => {
+			this.login();
+		});
+
 	},
 
 	save: function() {
@@ -31,14 +35,39 @@ let index = {
 			if (data.status == "OK") {
 				alert("회원가입 완료");
 				location.href = "/";
-			} 
+			}
 		}).fail(function(error) {
 			//console.log(error);
 			//console.log(error.responseJSON.message);
 			alert("회원가입 실패 : " + error.responseJSON.message);
-			
+
+		});
+	},
+
+
+	login: function() {
+
+		let data = {
+			username: $("#username").val(),
+			password: $("#password").val(),
+		};
+		$.ajax({
+			type: "POST",
+			url: "/api/user/login",
+			data: JSON.stringify(data),
+			contentType: "application/json; charset=utf-8",
+			dataType: "json"
+		}).done(function(data, textStatus, xhr) {
+			alert("로그인 성공");
+			console.log(data);
+			location.href = "/";
+		}).fail(function(error) {
+			alert("로그인 실패");
 		});
 	}
+
+
+
 }
 
 index.init();
