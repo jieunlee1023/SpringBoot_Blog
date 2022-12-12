@@ -28,17 +28,19 @@
 		<div class="collapse navbar-collapse" id="collapsibleNavbar">
 			<ul class="navbar-nav">
 
-				<c:choose>
+				<li class="nav-item"><a class="nav-link" href="/login-form">로그인</a></li>
+				<li class="nav-item"><a class="nav-link" href="/join-form">회원가입</a></li>
+				<%-- 				<c:choose>
 					<c:when test=" ${empty principal}">
 						<li class="nav-item"><a class="nav-link" href="/login-form">로그인</a></li>
-						<li class="nav-item"><a class="nav-link" href="/join-form">회원가입</a></li>
+						<li class="nav-item"><a class="nav-link" href="/join-form">회원가입</a></li>	
 					</c:when>
 					<c:otherwise>
 						<li class="nav-item"><a class="nav-link" href="/board/form">글쓰기</a></li>
-						<li class="nav-item"><a class="nav-link" href="/user/form">회원정보</a></li>
-						<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
+						<li class="nav-item"><a class="nav-link" href="/user/form">회원정보</a></li>	
+						<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>				
 					</c:otherwise>
-				</c:choose>
+				</c:choose> --%>
 			</ul>
 		</div>
 	</nav>
