@@ -42,13 +42,13 @@ public class UserApiController {
 
 		// principal 접근 주체
 		User principal = userService.login(user);
-		System.out.println("principal :" + principal);
+		//System.out.println("principal :" + principal);
 
 		if (principal != null) {
 			session.setAttribute("principal", principal);
 		}
 
-		return new ResponseDto<>(HttpStatus.OK, principal); // 자바 object --> json 형식으로 변환
+		return new ResponseDto<Integer>(HttpStatus.OK, 1); // 자바 object --> json 형식으로 변환
 	}
 
 	
