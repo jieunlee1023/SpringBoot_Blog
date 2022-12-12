@@ -7,19 +7,21 @@
 	<form action="">
 		<div class="form-group">
 			<label for="username">username:</label> 
-			<input type="text" class="form-control" placeholder="Enter username" id="username">
+			<input type="text" class="form-control" placeholder="Enter username" id="username" value="홍길동">
 		</div>
 		<div class="form-group">
 			<label for="password">password:</label> 
-			<input type="password" class="form-control" placeholder="Enter password" id="password">
+			<input type="password" class="form-control" placeholder="Enter password" id="password" value="asd123">
 		</div>
 		<div class="form-group">
 			<label for="email">email:</label> 
-			<input type="email" class="form-control" placeholder="Enter email" id="email">
+			<input type="email" class="form-control" placeholder="Enter email" id="email" value="a@naver.com">
 		</div>
 
-		<button type="submit" class="btn btn-primary">signUp</button>
 	</form>
+		<button type="button" id="btn--save" class="btn btn-primary">signUp</button>
 </div>
+
+<script type="text/javascript" src="/js/user.js"></script>
 
 <%@ include file="../layout/footer.jsp"%>
