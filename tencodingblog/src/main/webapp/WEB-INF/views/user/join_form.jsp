@@ -4,7 +4,7 @@
 
 
 <div class="container">
-	<form action="">
+	<form>
 		<div class="form-group">
 			<label for="username">username:</label> 
 			<input type="text" class="form-control" placeholder="Enter username" id="username" value="홍길동">
