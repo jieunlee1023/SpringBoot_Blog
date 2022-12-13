@@ -19,7 +19,6 @@ let index = {
 			email: $("#email").val()
 		}
 		//console.log(data);
-		//todo --> ajax로 통신(data -> json 변환, 자바 서버로 전송)
 
 		//  ajax 통신 구현
 		//$.ajax().done().fail(); 

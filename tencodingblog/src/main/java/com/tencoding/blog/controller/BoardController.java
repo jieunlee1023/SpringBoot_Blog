@@ -22,4 +22,10 @@ public class BoardController {
 		return "index";
 	}
 
+	@GetMapping("/board/save_form")
+	public String saveForm() {
+		
+		return "/board/save_form";
+	}
+
 }
