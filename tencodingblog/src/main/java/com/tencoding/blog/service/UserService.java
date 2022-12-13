@@ -21,7 +21,8 @@ public class UserService {
 	private UserRepository userRepository;
 
 	/*
-	 * 작업단위 하나의 기능 + 하나의 기능들을 묶어서 단위의 기능을 처리 DB 수정시 RollBack (롤백) 처리도 가능하다.
+	 * 작업단위 하나의 기능 + 하나의 기능들을 묶어서 단위의 기능을 처리 
+	 * DB 수정시 RollBack (롤백) 처리도 가능하다.
 	 * 
 	 */
 
