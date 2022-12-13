@@ -1,4 +1,4 @@
-package com.jieuncoding.blog.model;
+package com.mingcoding.blog.model;
 
 public enum RoleType {
 

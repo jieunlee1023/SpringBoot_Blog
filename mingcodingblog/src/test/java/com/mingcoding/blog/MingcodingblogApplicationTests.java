@@ -1,10 +1,10 @@
-package com.jieuncoding.blog;
+package com.mingcoding.blog;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class JieuncodingblogApplicationTests {
+class MingcodingblogApplicationTests {
 
 	@Test
 	void contextLoads() {

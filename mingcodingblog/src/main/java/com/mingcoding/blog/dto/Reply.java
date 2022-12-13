@@ -1,18 +1,17 @@
-package com.jieuncoding.blog.dto;
+package com.mingcoding.blog.dto;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
-
-import com.jieuncoding.blog.model.RoleType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,26 +22,25 @@ import lombok.ToString;
 @Data
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor 
 @Builder
 @Entity
-public class USER {
+public class Reply {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(nullable = false, length = 30, unique = true)
-	private String username;
+	@Column(nullable = false, length = 200)
+	private String content;
 
-	@Column(nullable = false, length = 100)
-	private String password;
+	@ManyToOne
+	@JoinColumn(name = "boardId")
+	private Board board;
 
-	@Column(nullable = false, length = 50)
-	private String email;
-
-	@Enumerated(EnumType.STRING)
-	private RoleType role;
+	@ManyToOne
+	@JoinColumn(name = "userId")
+	private User user;
 
 	@CreationTimestamp
 	private Timestamp createDate;
