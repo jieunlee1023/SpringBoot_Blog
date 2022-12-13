@@ -3,6 +3,7 @@ package com.tencoding.blog.service;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.tencoding.blog.dto.User;
@@ -24,15 +25,26 @@ public class UserService {
 	 * 
 	 */
 
+	// Spring DI - Bean 만들어두고 필요한 곳에서 Authowired를 사용하면 된다!
+	@Autowired
+	private BCryptPasswordEncoder encoder;
+
 	@Transactional
 	public int saveUser(User user) {
 
 		try {
-			user.setRole(RoleType.USER);
+			// 비밀번호를 넣을 때, 여기서 암호화 처리를 하고 DB에 저장하기
+			String rawPassword = user.getPassword();
+			String encPassword = encoder.encode(rawPassword);
+			System.out.println("encPassword" + encPassword);			
+			//$2a$10$q6KZ9Ye51isyj8l.V43icee8HB3PtwNxJKBqlDICUGyRzzH92Hg/6
+			//$2a$10$yVLxvTp7v0MPNKPojQ7g6.J3sxq0Ba5zlOrlWduQdvucIRWoOFNVq
+			user.setPassword(encPassword);
+			user.setRole(RoleType.USER);			
 			userRepository.save(user);
+			
 			return 1;
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 
 		return -1;

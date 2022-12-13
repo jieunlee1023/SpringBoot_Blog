@@ -3,8 +3,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <sec:authorize access="isAuthenticated()">
-    Welcome Back, <sec:authentication property="name" />
-    Welcome Back, <sec:authentication property="principal" var="principal" />
+	<sec:authentication property="principal" var="principal" />
 </sec:authorize>
 
 <!DOCTYPE html>
@@ -18,7 +17,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
 		<a class="navbar-brand" href="/">HOME</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -29,7 +27,7 @@
 			<ul class="navbar-nav">
 
 				<c:choose>
-					<c:when test=" ${empty principal}">
+					<c:when test="${empty principal}">
 						<li class="nav-item"><a class="nav-link" href="/auth/login_form">로그인</a></li>
 						<li class="nav-item"><a class="nav-link" href="/auth/join_form">회원가입</a></li>
 					</c:when>
