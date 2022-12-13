@@ -18,7 +18,6 @@ public class BoardService {
 		board.setCount(0);
 		board.setUserId(user);
 		boardRepository.save(board);
-		
 	}
-	
+
 }
