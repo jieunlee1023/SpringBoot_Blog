@@ -1,13 +1,13 @@
-package com.mingcoding.blog;
+package com.jieuncoding.blog;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MingcodingblogApplication {
+public class JieuncodingblogApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MingcodingblogApplication.class, args);
+		SpringApplication.run(JieuncodingblogApplication.class, args);
 	}
 
 }
