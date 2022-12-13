@@ -20,7 +20,7 @@ let index = {
 		console.log("여기는 들어오니");
 		$.ajax({
 			type: "POST",
-			url: "/api/user",
+			url: "/auth/joinProc",
 			data: JSON.stringify(data),
 			contentType: "application/json; charset=utf-8",
 			dataType: "json",
@@ -38,33 +38,5 @@ let index = {
 
 	},
 
-	login: function() {
-		let data = {
-			username: $("#username").val(),
-			password: $("#password").val(),
-		};
-		$.ajax({
-			type: "POST",
-			url: "/api/user/login",
-			data: JSON.stringify(data),
-			contentType: "application/json; charset=tecoutf-8",
-			dataType: "json"
-		}).done(function(data) {
-			if (data.status == "OK") {
-				alert("로그인 성공");
-				location.href = "/";
-			} else {
-				alert("로그인 실패!");
-			}
-
-			//alert("로그인 성공");
-			//console.log(data);
-			//location.href = "/";
-		}).fail(function(error) {
-			alert("로그인 실패!");
-		});
-
-
-	}
 }
 index.init();

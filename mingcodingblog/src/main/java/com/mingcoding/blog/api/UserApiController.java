@@ -14,7 +14,6 @@ import com.mingcoding.blog.dto.User;
 import com.mingcoding.blog.service.UserService;
 
 @RestController
-@RequestMapping("/api")
 public class UserApiController {
 
 	@Autowired
@@ -22,7 +21,7 @@ public class UserApiController {
 	@Autowired
 	private HttpSession session;
 
-	@PostMapping("/user")
+	@PostMapping("/auth/joinProc")
 	public ResponseDto<Integer> save(@RequestBody User user) {
 
 		System.out.println("회원가입 호출됨 !");

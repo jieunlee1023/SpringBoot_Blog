@@ -12,12 +12,12 @@ public class UserController {
 	@Autowired
 	private HttpSession Session;
 
-	@GetMapping("/login-form")
+	@GetMapping("/auth/login_form")
 	public String loginForm() {
 		return "user/login_form";
 	}
 
-	@GetMapping("/join-form")
+	@GetMapping("/auth/join_form")
 	public String joinForm() {
 		return "user/join_form";
 	}
