@@ -14,7 +14,6 @@ public class PrincipalDetailService implements UserDetailsService {
 
 	/*
 	 * 시큐리티가 username, password 를 가로채서 처리하는데 여기서는 username 을 확인해주어야 한다.
-	 * 
 	 */
 
 	@Autowired

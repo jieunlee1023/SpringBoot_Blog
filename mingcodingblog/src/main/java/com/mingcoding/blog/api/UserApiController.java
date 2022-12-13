@@ -33,17 +33,4 @@ public class UserApiController {
 		return new ResponseDto<Integer>(HttpStatus.OK, result);
 	}
 
-	@PostMapping("/user/login")
-	public ResponseDto<?> login(@RequestBody User user) {
-		System.out.println("로그인 호출됨");
-		System.out.println("user : " + user);
-
-		User principal = userService.login(user);
-		System.out.println("principal:" + principal);
-		if (principal != null) {
-			session.setAttribute("principal", principal);	
-			return new ResponseDto<Integer>(HttpStatus.OK, 1);
-		}
-		return  new ResponseDto<Integer>(HttpStatus.BAD_REQUEST, -1);
-	}
 }

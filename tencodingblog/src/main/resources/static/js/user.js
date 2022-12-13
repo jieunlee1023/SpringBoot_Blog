@@ -45,29 +45,28 @@ let index = {
 	},
 
 
-	login: function() {
+	/*	login: function() {
+	
+			let data = {
+				username: $("#username").val(),
+				password: $("#password").val(),
+			};
+			$.ajax({
+				type: "POST",
+				url: "/auth/loginProc",
+				data: JSON.stringify(data),
+				contentType: "application/json; charset=utf-8",
+				dataType: "json"
+			}).done(function(data, textStatus, xhr) {
+				alert("로그인 성공");
+				console.log(data);
+				location.href = "/";
+			}).fail(function(error) {
+				alert("로그인 실패");
+			});
+		}
 
-		let data = {
-			username: $("#username").val(),
-			password: $("#password").val(),
-		};
-		$.ajax({
-			type: "POST",
-			url: "/auth/loginProc",
-			data: JSON.stringify(data),
-			contentType: "application/json; charset=utf-8",
-			dataType: "json"
-		}).done(function(data, textStatus, xhr) {
-			alert("로그인 성공");
-			console.log(data);
-			location.href = "/";
-		}).fail(function(error) {
-			alert("로그인 실패");
-		});
-	}
-
-
-
+ */
 }
 
 index.init();
