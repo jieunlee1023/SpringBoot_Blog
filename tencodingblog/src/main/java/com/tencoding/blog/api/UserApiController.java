@@ -15,7 +15,6 @@ import com.tencoding.blog.dto.User;
 import com.tencoding.blog.service.UserService;
 
 @RestController
-@RequestMapping("/api")
 public class UserApiController {
 
 	// DI
@@ -25,7 +24,7 @@ public class UserApiController {
 	@Autowired
 	private HttpSession session;
 
-	@PostMapping("/user")
+	@PostMapping("/auth/joinProc")
 	public ResponseDto<Integer> save(@RequestBody User user) {
 		System.out.println("UserApiController save 호출됨!");
 		System.out.println("user: " + user);
@@ -35,21 +34,21 @@ public class UserApiController {
 		return new ResponseDto<Integer>(HttpStatus.OK, result); // 자바 object --> json 형식으로 변환
 	}
 
-	@PostMapping("/user/login")
-	public ResponseDto<?> login(@RequestBody User user) {
-		System.out.println("UserApiController login 호출됨!");
-		System.out.println("user: " + user);
-
-		// principal 접근 주체
-		User principal = userService.login(user);
-		//System.out.println("principal :" + principal);
-
-		if (principal != null) {
-			session.setAttribute("principal", principal);
-		}
-
-		return new ResponseDto<Integer>(HttpStatus.OK, 1); // 자바 object --> json 형식으로 변환
-	}
+//	@PostMapping("/user/login")
+//	public ResponseDto<?> login(@RequestBody User user) {
+//		System.out.println("UserApiController login 호출됨!");
+//		System.out.println("user: " + user);
+//
+//		// principal 접근 주체
+//		User principal = userService.login(user);
+//		//System.out.println("principal :" + principal);
+//
+//		if (principal != null) {
+//			session.setAttribute("principal", principal);
+//		}
+//
+//		return new ResponseDto<Integer>(HttpStatus.OK, 1); // 자바 object --> json 형식으로 변환
+//	}
 
 	
 }

@@ -14,26 +14,26 @@ public class UserController {
 	@Autowired
 	 private HttpSession session;
 
-	@GetMapping("/login-form")
+	@GetMapping("/auth/login_form")
 	public String loginForm() {
 		//경로 : /WEB-INF/views/user/login_form.jsp;
 		return "user/login_form";
 	}
 	
-	@GetMapping("/join-form")
+	@GetMapping("/auth/join_form")
 	public String joinForm() {
 		return "user/join_form";
 	}
 	
 	
-	// 기존 스프링에서 로그아웃 처리는 따로 정리 !
-	@GetMapping("/logout")
-    public String logout() {
-
-        HttpSession httpSession = session;
-        httpSession.invalidate(); // 로그아웃 처리
-
-        return "redirect:/";
-    }
+// 기존 스프링에서 로그아웃 처리는 따로 정리 !
+//	@GetMapping("/logout")
+//    public String logout() {
+//
+//        HttpSession httpSession = session;
+//        httpSession.invalidate(); // 로그아웃 처리
+//
+//        return "redirect:/";
+//    }
 	
 }

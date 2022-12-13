@@ -26,7 +26,7 @@ let index = {
 		$.ajax({
 			//회원가입 요청
 			type: "POST",
-			url: "/api/user",
+			url: "/auth/joinProc",
 			data: JSON.stringify(data), //http 메시지 body 영역에 들어감
 			contentType: "application/json; charset=utf-8", // 보낼 때 데이터 타입
 			dataType: "json", //응답이 왔을 때 MINE TYPE 지정,  JSON --> javascript Object 자동 변환
@@ -53,7 +53,7 @@ let index = {
 		};
 		$.ajax({
 			type: "POST",
-			url: "/api/user/login",
+			url: "/auth/loginProc",
 			data: JSON.stringify(data),
 			contentType: "application/json; charset=utf-8",
 			dataType: "json"

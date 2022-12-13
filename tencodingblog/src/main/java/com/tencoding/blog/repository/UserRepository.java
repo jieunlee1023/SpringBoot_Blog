@@ -16,15 +16,15 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	// SELECT * FROM user WHERE username = ? and password = ?
 	
 	// 첫번째 방법 -> 네이밍 전략
-	User findByUsernameAndPassword(String username, String password);
+//	User findByUsernameAndPassword(String username, String password);
 	
 	// 두번째 방법 -> 네이티브 쿼리 만들기
-	@Query(value = " SELECT * "
-			+ " FROM user "
-			+ " WHERE username = ?1 "
-			+ " and password = ?2 ",
-			nativeQuery = true)
-	User login(String username, String password);
+//	@Query(value = " SELECT * "
+//			+ " FROM user "
+//			+ " WHERE username = ?1 "
+//			+ " and password = ?2 ",
+//			nativeQuery = true)
+//	User login(String username, String password);
 	
 }
  
