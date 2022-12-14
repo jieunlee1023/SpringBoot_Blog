@@ -45,15 +45,12 @@ public class BoardController {
 	@GetMapping("/board/{id}")
 	public String showDetial(@PathVariable int id, Model model) {
 		model.addAttribute("board", boardService.boardDetail(id));
-
 		return "/board/detail";
 	}
 
 	@GetMapping("/board/{id}/update_form")
 	public String updateForm(@PathVariable(name = "id") int boardId, Model model) {
 		model.addAttribute("board", boardService.boardDetail(boardId));
-		
-		
 		return "/board/update_form";
 	}
 

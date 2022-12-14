@@ -44,9 +44,10 @@ public class BoardApiController {
 	}
 
 	@PutMapping("/api/board/{boardId}")
-	public ResponseDto<Integer> update(@PathVariable int boardId, @RequestBody Board board) {
+	public ResponseDto<Integer> update(@PathVariable int boardId, 
+			@RequestBody Board board) {
 		int result = boardService.modifyBoard(boardId, board);
-		return new ResponseDto<Integer>(HttpStatus.OK, 1);
+		return new ResponseDto<Integer>(HttpStatus.OK, result);
 	}
 
 }
