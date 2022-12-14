@@ -8,6 +8,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.tencoding.blog.dto.Board;
 import com.tencoding.blog.service.BoardService;
@@ -25,7 +26,7 @@ public class BoardController {
 	// ?page =2
 	@GetMapping({ "", "/" })
 	public String index(Model model,
-			@PageableDefault(size = 1, sort = "id", direction = Direction.DESC) Pageable pageable) {
+			@PageableDefault(size = 3, sort = "id", direction = Direction.DESC) Pageable pageable) {
 
 		Page<Board> boards = boardService.getBoardList(pageable);
 		model.addAttribute("boards", boards);
@@ -39,6 +40,13 @@ public class BoardController {
 	@GetMapping("/board/save_form")
 	public String saveForm() {
 		return "/board/save_form";
+	}
+
+	@GetMapping("/board/{id}")
+	public String showDetial(@PathVariable int id, Model model) {
+		model.addAttribute("board", boardService.boardDetail(id));
+
+		return "/board/detail";
 	}
 
 }
