@@ -43,4 +43,19 @@ public class BoardService {
 		boardRepository.deleteById(id);
 	}
 
+	@Transactional
+	public int modifyBoard(int boardId, Board board) {
+		// boardId 로 넘어오는 레코드가 있는건지 확인한다.
+
+		Board boardEntity = boardRepository.findById(boardId).orElseThrow(() -> {
+			return new IllegalArgumentException("해당 글을 찾을 수 없습니다.");
+		});
+
+		boardEntity.setTitle(board.getTitle());
+		boardEntity.setContent(board.getContent());
+		// 해당 함수 종료 시점에 트랜잭션이 종료되고, 더티 체킹해서 commit 처리를 한다.
+
+		return 1;
+	}
+
 }
