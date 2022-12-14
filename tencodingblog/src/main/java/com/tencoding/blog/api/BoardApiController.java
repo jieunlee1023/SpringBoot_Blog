@@ -24,7 +24,8 @@ public class BoardApiController {
 	private BoardService boardService;
 
 	@PostMapping("/api/board")
-	public ResponseDto<Integer> save(@RequestBody Board board, @AuthenticationPrincipal PrincipalDetail detail) {
+	public ResponseDto<Integer> save(@RequestBody Board board, 
+			@AuthenticationPrincipal PrincipalDetail detail) {
 
 		// 아작스 통신으로 넘겨받은 데이터 콘솔에 뿌려보기
 		// BoarderService

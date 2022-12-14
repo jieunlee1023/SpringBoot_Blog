@@ -9,7 +9,7 @@
 			<label for="username">username:</label> 
 			<input type="text" 
 			class="form-control" placeholder="Enter username"
-			 id="username" name="username" value="teco">
+			 id="username" name="username" value="jieun">
 		</div>
 		<div class="form-group">
 			<label for="password">password:</label> 
