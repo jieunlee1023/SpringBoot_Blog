@@ -60,5 +60,23 @@ public class UserService {
 //
 //		return userEntity;
 //	}
+	
+	@org.springframework.transaction.annotation.Transactional
+	public int updateUser(User requser) {
+		User userEntity = userRepository.findById(requser.getId()).orElseThrow(()->{
+			return new IllegalArgumentException("해당 사용자를 찾을 수 없습니다.");
+		}); 
+		
+		String rawPassword = requser.getPassword();
+		String encPassword = encoder.encode(rawPassword);
+		
+		userEntity.setUsername(userEntity.getUsername());
+		userEntity.setPassword(encPassword);
+		userEntity.setEmail(requser.getEmail());
+		//더티체킹 업데이트 시킬 예정
+		
+		return 1;
+	}
+	
 
 }

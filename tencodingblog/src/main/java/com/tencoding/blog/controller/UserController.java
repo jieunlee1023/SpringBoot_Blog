@@ -25,6 +25,11 @@ public class UserController {
 		return "user/join_form";
 	}
 	
+	@GetMapping("/user/update_form")
+	public String updateForm() {
+		return "user/update_form";
+	}
+	
 	
 // 기존 스프링에서 로그아웃 처리는 따로 정리 !
 //	@GetMapping("/logout")

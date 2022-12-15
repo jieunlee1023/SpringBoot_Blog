@@ -5,8 +5,11 @@ let index = {
 		$("#btn--save").bind("click", () => {
 			this.save();
 		});
-		$('#btn--login').bind('click', () => {
+		$("#btn--login").bind('click', () => {
 			this.login();
+		});
+		$("#btn--update").bind('click', () => {
+			this.update();
 		});
 
 	},
@@ -66,6 +69,32 @@ let index = {
 		}
 
  */
+
+	update: function() {
+		let data = {
+			id: $("#id").val(),
+			username: $("#username").val(),
+			password: $("#password").val(),
+			email: $("#email").val()
+		};
+
+		// 방어적 코드... (password, email 입력했는지)
+
+	$.ajax({
+			type: "PUT",
+			url: "/api/user",
+			data: JSON.stringify(data),
+			contentType: 'application/json;charset=utf-8',
+			dataType: "json",
+		}).done(function(data, textStatus, xhr) {
+			if (data.status) {
+				alert("수정이 완료되었습니다.");
+				location.href = "/";
+			}
+		}).fail(function(error) {
+			alert("수정이 실패했습니다.");
+		});
+	}
 }
 
 index.init();
