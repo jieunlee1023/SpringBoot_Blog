@@ -20,32 +20,32 @@ public class ApiController {
 		user.setName("홍길동");
 
 		return user;
-		// 여기서 !!!
 	}
 	
 
-	@GetMapping("/hello1/{name}/{age}")
+	@GetMapping("/hello1/{name}/name/{age}")
 	public User serverHi(@PathVariable String name, @PathVariable String age) {
 
 		System.out.println("name"+name);
 		System.out.println("age"+age);
+		
 		User user = new User();
 		user.setName(name);
 		user.setAge(age);
 		return user;
-		// 여기서 !!!
 	}
 
 
 	@GetMapping("/hello2")
 	public User serverHello(@RequestParam String name, @RequestParam String age) {
-		System.out.println("??????????????????????????????");
 
+		System.out.println("name"+name);
+		System.out.println("age"+age);
+		
 		User user = new User();
 		user.setName(name);
 		user.setAge(age);
 		return user;
-		// 여기서 !!!
 	}
 
 }

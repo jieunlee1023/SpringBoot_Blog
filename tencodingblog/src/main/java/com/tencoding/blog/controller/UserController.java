@@ -74,6 +74,11 @@ public class UserController {
 				requestKakaoToken,
 				OAuthToken.class);
 		
+		//////////////////////////////////////////////////////////////////////여기까지 토큰 받기 완료
+		
+		// 다시 한번 더 kapi.kakao.com 로 토큰을 가지고 요청하여 사용자 정보를 응답 받아야 한다.
+		
+		
 		
 		return response.getBody();
 	}

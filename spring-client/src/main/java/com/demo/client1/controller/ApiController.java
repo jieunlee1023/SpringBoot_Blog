@@ -18,19 +18,18 @@ public class ApiController {
 
 	@GetMapping("/get-hello")
 	public String getHello() {
-		
-		return service.반가워().toString();
+		return service.hello().toString();
 	}
 	
 	@GetMapping("/get-hello1")
 	public String getHello1() {
-		return service.하이().toString();
+		return service.hello1().toString();
 	}
 	
 	@GetMapping("/get-hello2")
 	public String getHello2() {
 		
-		return service.안녕().toString();
+		return service.hello2().toString();
 	}
 
 }
