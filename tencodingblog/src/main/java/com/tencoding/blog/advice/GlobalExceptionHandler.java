@@ -17,7 +17,7 @@ import com.tencoding.blog.dto.CustomError;
 import com.tencoding.blog.dto.ErrorResponse;
 
 @RestControllerAdvice
-public class GloblaExceptionHandler {
+public class GlobalExceptionHandler {
 
 	
 	@ExceptionHandler(value = Exception.class)
