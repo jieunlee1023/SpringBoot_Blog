@@ -64,14 +64,19 @@ public class UserService {
 		User userEntity = userRepository.findById(requser.getId()).orElseThrow(() -> {
 			return new IllegalArgumentException("해당 사용자를 찾을 수 없습니다.");
 		});
+		
+		if (userEntity.getOauth() == null || userEntity.getOauth().equals(" ")) {
+			// 우리 사이트 회원 가입자
+			String rawPassword = requser.getPassword();
+			String encPassword = encoder.encode(rawPassword);
 
-		String rawPassword = requser.getPassword();
-		String encPassword = encoder.encode(rawPassword);
+			userEntity.setUsername(userEntity.getUsername());
+			userEntity.setPassword(encPassword);
+			userEntity.setEmail(requser.getEmail());
+			// 더티체킹 업데이트 시킬 예정
+		}
 
-		userEntity.setUsername(userEntity.getUsername());
-		userEntity.setPassword(encPassword);
-		userEntity.setEmail(requser.getEmail());
-		// 더티체킹 업데이트 시킬 예정
+	
 
 		return 1;
 	}

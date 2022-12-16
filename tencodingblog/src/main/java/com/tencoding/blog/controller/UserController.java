@@ -130,6 +130,8 @@ public class UserController {
 		// 여기서는 user의 id를 당연히 사용 불가
 		// 그러면 username으로 검색하는 기능을 만들어 주어야 한다.
 		User originUser = userService.searchUserName(kakaoUser.getUsername());
+		
+	
 		if (originUser.getUsername() == null) {
 			System.out.println("신규 회원이기 때문에, 회원가입을 진행");
 			userService.saveUser(kakaoUser);
