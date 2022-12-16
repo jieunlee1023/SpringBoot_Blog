@@ -38,7 +38,7 @@ public class User {
 	private int id;
 	
 	//  unique = true  제약 추가
-	@Column(nullable = false, length = 30, unique = true)
+	@Column(nullable = false, length = 100, unique = true)
 	private String username;
 	
 	@Column(nullable = false, length = 100)
@@ -51,6 +51,8 @@ public class User {
 	//DynamicInsert를 안쓰고 직접 입력하겠금 만듦!
 	@Enumerated(EnumType.STRING) //DB에게 String 타입이라고 알려줘야 한다.
 	private RoleType role; //admin, user, manager : Enum 타입으로 변경
+	
+	private String oauth; // kakao, google..
 	
 	@CreationTimestamp //시간이 자동으로 입력된다.
 	private Timestamp createDate;

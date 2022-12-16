@@ -20,8 +20,7 @@ public class UserService {
 	private UserRepository userRepository;
 
 	/*
-	 * 작업단위 하나의 기능 + 하나의 기능들을 묶어서 단위의 기능을 처리 
-	 * DB 수정시 RollBack (롤백) 처리도 가능하다.
+	 * 작업단위 하나의 기능 + 하나의 기능들을 묶어서 단위의 기능을 처리 DB 수정시 RollBack (롤백) 처리도 가능하다.
 	 * 
 	 */
 
@@ -36,13 +35,13 @@ public class UserService {
 			// 비밀번호를 넣을 때, 여기서 암호화 처리를 하고 DB에 저장하기
 			String rawPassword = user.getPassword();
 			String encPassword = encoder.encode(rawPassword);
-			System.out.println("encPassword" + encPassword);			
-			//$2a$10$q6KZ9Ye51isyj8l.V43icee8HB3PtwNxJKBqlDICUGyRzzH92Hg/6
-			//$2a$10$yVLxvTp7v0MPNKPojQ7g6.J3sxq0Ba5zlOrlWduQdvucIRWoOFNVq
+			System.out.println("encPassword" + encPassword);
+			// $2a$10$q6KZ9Ye51isyj8l.V43icee8HB3PtwNxJKBqlDICUGyRzzH92Hg/6
+			// $2a$10$yVLxvTp7v0MPNKPojQ7g6.J3sxq0Ba5zlOrlWduQdvucIRWoOFNVq
 			user.setPassword(encPassword);
-			user.setRole(RoleType.USER);			
+			user.setRole(RoleType.USER);
 			userRepository.save(user);
-			
+
 			return 1;
 		} catch (Exception e) {
 		}
@@ -59,23 +58,28 @@ public class UserService {
 //
 //		return userEntity;
 //	}
-	
+
 	@Transactional
 	public int updateUser(User requser) {
-		User userEntity = userRepository.findById(requser.getId()).orElseThrow(()->{
+		User userEntity = userRepository.findById(requser.getId()).orElseThrow(() -> {
 			return new IllegalArgumentException("해당 사용자를 찾을 수 없습니다.");
-		}); 
-		
+		});
+
 		String rawPassword = requser.getPassword();
 		String encPassword = encoder.encode(rawPassword);
-		
+
 		userEntity.setUsername(userEntity.getUsername());
 		userEntity.setPassword(encPassword);
 		userEntity.setEmail(requser.getEmail());
-		//더티체킹 업데이트 시킬 예정
-		
+		// 더티체킹 업데이트 시킬 예정
+
 		return 1;
 	}
-	
+	@Transactional
+	public User searchUserName(String username) {
+		return userRepository.findByUsername(username).orElseGet(() -> {
+			return new User();
+		});
+	}
 
 }
