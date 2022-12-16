@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +21,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -38,11 +39,13 @@ public class Reply {
 	
 	@ManyToOne
 	@JoinColumn(name = "boardId")
+	@JsonIgnoreProperties({"replys", "userId"})
 	private Board board;
 	
 	// user 연관 관계 처리
 	@ManyToOne //Reply <---> User 여러개의 답변이라도 하나의 사람이 쓸 수 있다. 
 	@JoinColumn(name = "userId")
+	@JsonIgnoreProperties({"password", "role", "email", "oauth"})
 	private User user;
 	
 	@CreationTimestamp

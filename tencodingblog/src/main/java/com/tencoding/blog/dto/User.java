@@ -25,7 +25,6 @@ import lombok.ToString;
 //3. 제약 추가
 
 @Data
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.tencoding.blog.dto.Reply;
 
-public interface replyRepository extends JpaRepository<Reply, Integer>{
+public interface ReplyRepository extends JpaRepository<Reply, Integer>{
 
 }

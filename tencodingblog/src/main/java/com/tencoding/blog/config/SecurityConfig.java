@@ -61,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable(); // 개발 완료 전 테스트시 사용한다.(실 서비스에서는 사용안함 권장)
 
 		http.authorizeHttpRequests()
-		.antMatchers("/auth/**", "/", "/js/**", "/image/**", "/css/**")
+		.antMatchers("/auth/**", "/", "/js/**", "/image/**", "/css/**","/test/**")
 		.permitAll() 
 		.anyRequest()
 		.authenticated()
