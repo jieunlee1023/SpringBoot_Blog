@@ -10,15 +10,21 @@ let index = {
 		$("#btn--update").bind("click", () => {
 			this.update();
 		});
-		$("#btn-reply-save").bind("click", () => {;
+		$("#btn-reply-save").bind("click", () => {
+			;
 			this.replySave();
 		});
 	},
 	save: function() {
+		
+		let xcheckTitle = XSSCheck($("#title").val());
+		console.log(xcheckTitle);
+		
 		let data = {
-			title: $("#title").val(),
+			title: xcheckTitle,
 			content: $("#content").val()
 		};
+
 
 		$.ajax({
 			type: "POST",
@@ -33,8 +39,10 @@ let index = {
 				location.href = "/";
 			}
 		}).fail((error) => {
-			alert(error.responseJSON.error);
+			alert(error.responseJSON);
 		});
+		
+	
 	},
 
 	deleteById: function() {
@@ -85,7 +93,7 @@ let index = {
 		let replyData = {
 			boardId: $("#board-id").val(), //fk (board PK)
 			content: $("#content").val(),
-			
+
 		};
 
 		$.ajax({
@@ -101,10 +109,10 @@ let index = {
 			}
 		}).fail((error) => {
 			alert("댓글 작성에 실패하였습니다.");
-			
+
 		});
 	},
-		replyDelete: function(boardId, replyId) {
+	replyDelete: function(boardId, replyId) {
 
 		$.ajax({
 			type: "DELETE",
@@ -113,12 +121,22 @@ let index = {
 		}).done(function(resData) {
 			if (resData.status == "OK") {
 				alert("댓글 삭제 성공!");
-				location.href=`/board/${boardId}`
+				location.href = `/board/${boardId}`
 			}
 		}).fail(function(error) {
 			alert("댓글 삭제 실패!");
 		});
 	}
+}
+
+function XSSCheck(str, level) {
+	if (level == undefined || level == 0) {
+		str = str.replace(/\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-/g, "");
+	} else if (level != undefined && level == 1) {
+		str = str.replace(/\</g, "&lt;");
+		str = str.replace(/\>/g, "&gt;");
+	}
+	return str;
 }
 
 index.init();
