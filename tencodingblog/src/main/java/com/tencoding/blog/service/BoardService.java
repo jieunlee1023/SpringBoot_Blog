@@ -95,4 +95,8 @@ public class BoardService {
 
 	}
 
+	@Transactional
+	public Page<Board> searchBoard(String q, Pageable pageable){
+		return boardRepository.findByTitleContaining(q, pageable);
+	}
 }
