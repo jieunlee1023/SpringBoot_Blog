@@ -1,5 +1,7 @@
 package com.tencoding.blog.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,12 +29,37 @@ public class BoardController {
 	@GetMapping({ "", "/" })
 	public String index(Model model,
 			@PageableDefault(size = 3, sort = "id", direction = Direction.DESC) Pageable pageable) {
-
 		Page<Board> boards = boardService.getBoardList(pageable);
-	
-		
 		model.addAttribute("boards", boards);
-		// jsp 파일에서 model 추상객체를 이용해서 컨트롤러에서 내려 준 데이터에 접근이 가능하다.
+
+		int PAGENATION_BLOCK_COUNT = 3;
+		// 1. 현재 페이지 앞 뒤로 2칸씩 보이기
+		// 2. 현재 페이지 active 처리하기
+		// 3. 페이지 숫자를 눌렀을 경우 해당 페이지로 화면 이동하기
+		// 마지막에 보여야하는 페이지를 잘 확인하자!
+
+		// 총 게시물에서 화면에 보여줄 게시물을 계산을 하면 총 몇 페이지가 나오는지 알 수 있다.
+		System.out.println(">>>>>>>>>>>>>>화면에 보여줄 게시글의 개수 : " + boards.getSize());
+		System.out.println(">>>>>>>>>>>>>>전체 페이지의 크기 : " + boards.getTotalPages());
+		System.out.println(">>>>>>>>>>>>>>현재 페이지 번호 : " + boards.getPageable().getPageNumber());
+ 
+		int nowPage = boards.getPageable().getPageNumber() + 1;
+		int startPageNumber = Math.max(nowPage - PAGENATION_BLOCK_COUNT, 1);
+		int endPageNumber = Math.min(nowPage+PAGENATION_BLOCK_COUNT, boards.getTotalPages());
+		
+		System.out.println("시작해야하는 번호: " + startPageNumber);
+		System.out.println("마지막에 보여야하는 번호: " + endPageNumber);
+
+		ArrayList<Integer> pageNumbers = new ArrayList<>();
+		for (int i = startPageNumber; i <= endPageNumber; i++) {
+			pageNumbers.add(i);
+		}
+		
+		model.addAttribute("boards",boards);
+		model.addAttribute("nowPage",nowPage);
+		model.addAttribute("startPage",startPageNumber);
+		model.addAttribute("endPage",endPageNumber);
+		model.addAttribute("pageNumbers",pageNumbers);
 
 		return "index";
 	}
@@ -55,6 +82,5 @@ public class BoardController {
 		model.addAttribute("board", boardService.boardDetail(boardId));
 		return "/board/update_form";
 	}
-
 
 }
