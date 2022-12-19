@@ -16,6 +16,8 @@ import com.tencoding.blog.dto.Reply;
 import com.tencoding.blog.dto.ResponseDto;
 import com.tencoding.blog.service.BoardService;
 
+import lombok.experimental.Delegate;
+
 @RestController
 public class BoardApiController {
 
@@ -23,7 +25,8 @@ public class BoardApiController {
 	private BoardService boardService;
 
 	@PostMapping("/api/board")
-	public ResponseDto<Integer> save(@RequestBody Board board, @AuthenticationPrincipal PrincipalDetail detail) {
+	public ResponseDto<Integer> save(@RequestBody Board board, 
+			@AuthenticationPrincipal PrincipalDetail detail) {
 
 		// 아작스 통신으로 넘겨받은 데이터 콘솔에 뿌려보기
 		// BoarderService
@@ -42,30 +45,19 @@ public class BoardApiController {
 	}
 
 	@PutMapping("/api/board/{boardId}")
-	public ResponseDto<Integer> update(@PathVariable int boardId, @RequestBody Board board) {
+	public ResponseDto<Integer> update(@PathVariable int boardId, 
+			@RequestBody Board board) {
 		int result = boardService.modifyBoard(boardId, board);
 		return new ResponseDto<Integer>(HttpStatus.OK, result);
 	}
-
+	
 	@PostMapping("/api/board/{boardId}/reply")
-	public ResponseDto<Integer> replySave(@PathVariable int boardId, @RequestBody Reply requestReply,
-			@AuthenticationPrincipal PrincipalDetail principalDetail) {
+	public ResponseDto<Integer> replySave(@PathVariable int boardId , 
+			@RequestBody Reply requestReply, 
+			@AuthenticationPrincipal PrincipalDetail principalDetail ){
 		boardService.writeReply(boardId, requestReply, principalDetail.getUser());
-
+		
 		return new ResponseDto<>(HttpStatus.OK, 1);
-	}
-
-	@DeleteMapping("/api/board/{boardId}/reply/{replyId}")
-	public ResponseDto<?> deleteReplyById(@PathVariable int boardId, @PathVariable int replyId,
-			@AuthenticationPrincipal PrincipalDetail detail) {
-
-		// 검증 : 현재 삭제 요청자, db 저장된 사용자에 id 역시 비교해서 처리를 해주어야 한다.
-		try {
-			boardService.deleteReplyById(replyId, detail.getUser().getId());
-		} catch (Exception e) {
-
-		}
-		return new ResponseDto<Integer>(HttpStatus.OK, 1);
 	}
 
 }

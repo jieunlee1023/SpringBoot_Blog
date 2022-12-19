@@ -86,12 +86,5 @@ public class UserService {
 			return new User();
 		});
 	}
-	
-	@Transactional
-	public User searchUserId(int id) {
-		return userRepository.findById(id).orElseGet(() -> {
-			return new User();
-		});
-	}
 
 }

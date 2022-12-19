@@ -10,11 +10,9 @@ let index = {
 		$("#btn--update").bind("click", () => {
 			this.update();
 		});
-		$("#btn-reply-save").bind("click", () => {
-			;
+		$("#btn-reply-save").bind("click", () => {;
 			this.replySave();
 		});
-
 	},
 	save: function() {
 		let data = {
@@ -87,7 +85,7 @@ let index = {
 		let replyData = {
 			boardId: $("#board-id").val(), //fk (board PK)
 			content: $("#content").val(),
-
+			
 		};
 
 		$.ajax({
@@ -103,24 +101,9 @@ let index = {
 			}
 		}).fail((error) => {
 			alert("댓글 작성에 실패하였습니다.");
-
+			
 		});
 	},
-	replyDelete: function(boardId, replyId) {
-
-		$.ajax({
-			type: "DELETE",
-			url: `/api/board/${boardId}/reply/${replyId}`,
-			dataType: "json"
-		}).done(function(resData) {
-			if (resData.status == "OK") {
-				alert("댓글 삭제 성공!");
-				location.href=`/board/${boardId}`
-			}
-		}).fail(function(error) {
-			alert("댓글 삭제 실패!");
-		});
-	}
 }
 
 index.init();
