@@ -49,7 +49,7 @@ public class Board {
 	private User user;
 
 	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER)
-	private List<Reply> reply;
+	private List<Reply> replys;
 
 	@CreationTimestamp
 	private Timestamp createDate;

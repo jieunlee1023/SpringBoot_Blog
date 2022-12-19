@@ -10,6 +10,11 @@ let index = {
 		$("#btn--update").bind("click", () => {
 			this.update();
 		});
+		$("#btn-reply-save").bind("click", () => {
+			console.log("여기들어오니");
+			this.replySave();
+
+		});
 	},
 
 	save: function() {
@@ -73,7 +78,28 @@ let index = {
 		}).fail(function(error) {
 			alert("수정에 실패했습니다!");
 		});
-	}
+	},
+		replySave: function() {
+		let replyData = {
+			boardId: $("#board-id").val(),
+			content: $("#content").val()
+		}
+		$.ajax({
+			type: "POST",
+			url: `/api/board/${replyData.boardId}/reply`,
+			data: JSON.stringify(replyData),
+			contentType: 'application/json;charset=utf-8',
+			dataType: "json",
+		}).done(function(data) {
+			if (data.status == "OK") {
+				alert("댓글 작성이 완료되었습니다!");
+				location.href = `/board/${replyData.boardId}`;
+			}
+		}).fail((error) => {
+			alert("댓글 작성에 실패하였습니다.");
+
+		});
+	},
 }
 
 

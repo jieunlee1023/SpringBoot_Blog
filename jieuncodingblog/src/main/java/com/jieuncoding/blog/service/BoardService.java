@@ -6,15 +6,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jieuncoding.blog.auth.PrincipalDetail;
 import com.jieuncoding.blog.dto.Board;
+import com.jieuncoding.blog.dto.Reply;
 import com.jieuncoding.blog.dto.User;
 import com.jieuncoding.blog.repository.BoardRepository;
+import com.jieuncoding.blog.repository.ReplyRepository;
 
 @Service
 public class BoardService {
 
 	@Autowired
 	private BoardRepository boardRepository;
+	
+	@Autowired
+	private ReplyRepository replyRepository;
 
 	public void write(Board board, User user) {
 		board.setCount(0);
@@ -46,6 +52,18 @@ public class BoardService {
 		boardEntity.setTitle(board.getTitle());
 		boardEntity.setContent(board.getContent());
 		return 1;
+	}
+
+	public void writeReply(int boardId, Reply reply, User user) {
+
+		Board board = boardRepository.findById(boardId).orElseThrow(() -> {
+			return new  IllegalArgumentException("해당 게시글은 없습니다.");
+		});
+		
+		reply.setUser(user);
+		reply.setBoard(board);
+
+		replyRepository.save(reply);
 	}
 
 }

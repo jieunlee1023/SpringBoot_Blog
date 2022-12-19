@@ -37,4 +37,20 @@ public class UserService {
 		return -1;
 	}
 
+	@Transactional
+	public int updateUser(User user) {
+		User userEntity = userRepository.findById(user.getId()).orElseThrow(() -> {
+			return new IllegalArgumentException("해당 유저는 없습니다.");
+		});
+
+		String rawPassword = user.getPassword();
+		String encPassword = encoder.encode(rawPassword);
+
+		userEntity.setUsername(userEntity.getUsername());
+		userEntity.setPassword(encPassword);
+		userEntity.setEmail(user.getEmail());
+
+		return 1;
+	}
+
 }

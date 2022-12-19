@@ -13,7 +13,8 @@
 	<br> <br>
 
 	<div>
-		글 번호 : <span id="board-id"> <i>${board.id}</i></span>
+	<input type="hidden" id="board-id" value="${board.id}">
+		글 번호 : <span id=""> <i>${board.id + 100}</i></span>
 	</div>
 	<div>
 		작성자 : <span id=""> <i>${board.user.username}</i></span>
@@ -25,10 +26,37 @@
 	</div>
 
 	<div>${board.content}</div>
-	<br> <br> <br>
+	<br> <br>
+	
+	<div class="card">
+
+		<div class="card-body">
+			<textarea rows="1" class="form-control" id="content"></textarea>
+		</div>
+		<div class="card-footer">
+			<button class="btn btn-secondary d-flex" id="btn-reply-save">등록</button>
+		</div>
+	</div>
+	<br>
+	
+	<div class="card">
+		<div class="card-header">댓글 목록</div>
+	</div>
+	<ul class="list-group">
+		<c:forEach var="reply" items="${board.replys}">
+			<li class="list-group-item d-flex justify-content-between">
+				<div >${reply.content}</div>
+				<div class=" d-flex">
+					<div>작성자 : &nbsp; ${reply.user.username} &nbsp; &nbsp; &nbsp;</div>
+					<button class="btn btn-danger badge"  id="btn-reply-delete" >삭제</button>
+				</div>
+			</li>
+		</c:forEach>
+	</ul>
+	
 
 </div>
-<
+
 <script type="text/javascript" src="/js/board.js"></script>
 
 <%@ include file="../layout/footer.jsp"%>

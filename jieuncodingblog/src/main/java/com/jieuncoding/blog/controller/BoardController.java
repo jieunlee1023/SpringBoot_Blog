@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import com.jieuncoding.blog.dto.Board;
+import com.jieuncoding.blog.dto.ResponseDto;
 import com.jieuncoding.blog.service.BoardService;
 
 @Controller
@@ -47,6 +48,5 @@ public class BoardController {
 		model.addAttribute("board", boardService.boardDetail(boardId));
 		return "/board/update-form";
 	}
-
 
 }

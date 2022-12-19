@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jieuncoding.blog.auth.PrincipalDetail;
 import com.jieuncoding.blog.dto.Board;
+import com.jieuncoding.blog.dto.Reply;
 import com.jieuncoding.blog.dto.ResponseDto;
 import com.jieuncoding.blog.service.BoardService;
 
@@ -40,5 +41,16 @@ public class BoardApiController {
 			@RequestBody Board board){
 		int result = boardService.modifyBoard(boardId, board);
 		return new ResponseDto<>(HttpStatus.OK, result);
+	}
+	
+	@PostMapping("/api/board/{boardId}/reply")
+	public ResponseDto<Integer> replySave(@PathVariable int boardId,
+			@RequestBody Reply reply,
+			@AuthenticationPrincipal PrincipalDetail principalDetail){
+		
+		System.out.println("여긴 들어오니??????????????????");
+		boardService.writeReply(boardId, reply,principalDetail.getUser());
+		
+		return new ResponseDto<>(HttpStatus.OK,1);
 	}
 }
