@@ -107,16 +107,19 @@ let index = {
 			type: "DELETE",
 			url: `/api/board/${boardId}/reply/${replyId}`,
 			dataType: "json"
-		}).done(function(resData){
-			if (resData.status == "OK"){
+		}).done(function(resData) {
+			if (resData.status == "OK") {
 				alert("댓글 삭제 완료");
-				location.href=`/board/${boardId}`
+				location.href = `/board/${boardId}`
 			}
-		}).fail(function(error){
+		}).fail(function(error) {
 			alert("댓글 삭제 실패!");
 		});
 
-	}
+	},
+
+
+
 }
 
 

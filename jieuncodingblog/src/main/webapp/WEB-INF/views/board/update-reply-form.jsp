@@ -1,9 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../layout/header.jsp"%>
 
 <div class="container">
-<br> <br>
+	<br> <br>
 	<button class="btn btn-secondary" onclick="history.back();">돌아가기</button>
 
 	<c:if test="${board.user.id == principal.user.id}">
@@ -13,8 +12,7 @@
 	<br> <br>
 
 	<div>
-	<input type="hidden" id="board-id" value="${board.id}">
-		글 번호 : <span id=""> <i>${board.id + 100}</i></span>
+		<input type="hidden" id="board-id" value="${board.id}"> 글 번호 : <span id=""> <i>${board.id + 100}</i></span>
 	</div>
 	<div>
 		작성자 : <span id=""> <i>${board.user.username}</i></span>
@@ -27,34 +25,36 @@
 
 	<div>${board.content}</div>
 	<br> <br>
-	
+
 	<div class="card">
 
 		<div class="card-body">
-			<textarea rows="1" class="form-control" id="content"></textarea>
+			<textarea rows="1" class="form-control" id="content" disabled></textarea>
 		</div>
 		<div class="card-footer">
-			<button class="btn btn-secondary d-flex" id="btn-reply-save">등록</button>
+			<button class="btn btn-secondary d-flex" id="btn-reply-save" disabled>등록</button>
 		</div>
 	</div>
 	<br>
-	
+
 	<div class="card">
 		<div class="card-header">댓글 목록</div>
 	</div>
 	<ul class="list-group">
 		<c:forEach var="reply" items="${board.replys}">
 			<li class="list-group-item d-flex justify-content-between">
-				<div >${reply.content}</div>
-				<div class=" d-flex">
-					<div>작성자 : &nbsp; ${reply.user.username} &nbsp; &nbsp; &nbsp;</div>
-					<a class="btn btn-warning badge d-flex mr-2 justify-content-center" href="/api/board/${board.id}/reply/${reply.id}/update-reply-form" >수정</a>
-					<button class="btn btn-danger badge d-flex justify-content-center" onclick="index.replyDelete(${board.id},${reply.id});" >삭제</button>
+			<div>
+			<textarea rows="1" cols="100"  class="form-control" id="content"></textarea>
+			</div>
+				<div class=" d-flex mr-3" >
+					<div >작성자 : &nbsp; ${reply.user.username} &nbsp; &nbsp; &nbsp;</div>
+					<button class="btn btn-warning badge d-flex mr-2 justify-content-center   text-align-center">저장</button>
+					<button class="btn btn-danger badge d-flex justify-content-center" onclick="index.replyDelete(${board.id},${reply.id});" disabled>삭제</button>
 				</div>
-			</li>
+				</li>
 		</c:forEach>
 	</ul>
-	
+
 
 </div>
 

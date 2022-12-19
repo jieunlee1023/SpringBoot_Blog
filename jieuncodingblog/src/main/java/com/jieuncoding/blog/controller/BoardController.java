@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jieuncoding.blog.dto.Board;
 import com.jieuncoding.blog.dto.ResponseDto;
@@ -23,30 +24,32 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 
-	@GetMapping({ "", "/" })
-	public String index(Model model,
-			@PageableDefault(size = 3, sort = "id", direction = Direction.DESC) Pageable pageable)
 
-	{
-		Page<Board> boards = boardService.getBoardList(pageable);
-		
+	@GetMapping({ "", "/", "/board/search" })
+	public String index(@RequestParam(required = false) String q, Model model,
+			@PageableDefault(size = 3, sort = "id", direction = Direction.DESC) Pageable pageable){
+
+		String searchTitle = q == null ? "" : q;
+		Page<Board> boards = boardService.searchBoard(searchTitle, pageable);
+
 		int PAGENATION_BLOCK_COUNT = 3;
-		
-		int nowPage = boards.getPageable().getPageNumber()+1;
-		int startPage = Math.max(nowPage-PAGENATION_BLOCK_COUNT, 1);
-		int endPage = Math.min(nowPage+PAGENATION_BLOCK_COUNT,  boards.getTotalPages());
-		
-		ArrayList<Integer> pageNumbers= new ArrayList<>();
+
+		int nowPage = boards.getPageable().getPageNumber() + 1;
+		int startPage = Math.max(nowPage - PAGENATION_BLOCK_COUNT, 1);
+		int endPage = Math.min(nowPage + PAGENATION_BLOCK_COUNT, boards.getTotalPages());
+
+		ArrayList<Integer> pageNumbers = new ArrayList<>();
 		for (int i = startPage; i <= endPage; i++) {
 			pageNumbers.add(i);
 		}
-		
+
 		model.addAttribute("boards", boards);
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("pageNumbers", pageNumbers);
-		
+		model.addAttribute("q", searchTitle);
+	
 
 		return "index";
 	}
@@ -55,19 +58,23 @@ public class BoardController {
 	public String saveForm() {
 		return "/board/save-form";
 	}
-	
+
 	@GetMapping("/board/{id}")
 	public String showDetail(@PathVariable int id, Model model) {
 		model.addAttribute("board", boardService.boardDetail(id));
 		return "/board/detail";
 	}
-	
+
 	@GetMapping("/board/{id}/update-form")
 	public String updateForm(@PathVariable(name = "id") int boardId, Model model) {
 		model.addAttribute("board", boardService.boardDetail(boardId));
 		return "/board/update-form";
 	}
 	
-	
+	@GetMapping("/api/board/{boardId}/reply/{replyId}/update-reply-form")
+	public String updateReplyForm(@PathVariable int boardId,  @PathVariable int replyId, Model model ) {
+		model.addAttribute("board", boardService.boardDetail(boardId));
+		return "/board/update-reply-form";
+	}
 
 }
