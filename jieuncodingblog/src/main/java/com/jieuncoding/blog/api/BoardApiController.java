@@ -29,28 +29,37 @@ public class BoardApiController {
 		return new ResponseDto<>(HttpStatus.OK, 1);
 
 	}
-	
+
 	@DeleteMapping("/api/board/{id}")
-	public ResponseDto<Integer> deleteById(@PathVariable int id){
+	public ResponseDto<Integer> deleteById(@PathVariable int id) {
 		boardService.deleteById(id);
 		return new ResponseDto<>(HttpStatus.OK, 1);
 	}
 
 	@PutMapping("/api/board/{boardId}")
-	public ResponseDto<Integer> update(@PathVariable int boardId, 
-			@RequestBody Board board){
+	public ResponseDto<Integer> update(@PathVariable int boardId, @RequestBody Board board) {
 		int result = boardService.modifyBoard(boardId, board);
 		return new ResponseDto<>(HttpStatus.OK, result);
 	}
-	
+
 	@PostMapping("/api/board/{boardId}/reply")
-	public ResponseDto<Integer> replySave(@PathVariable int boardId,
-			@RequestBody Reply reply,
-			@AuthenticationPrincipal PrincipalDetail principalDetail){
-		
-		System.out.println("여긴 들어오니??????????????????");
-		boardService.writeReply(boardId, reply,principalDetail.getUser());
-		
-		return new ResponseDto<>(HttpStatus.OK,1);
+	public ResponseDto<Integer> replySave(@PathVariable int boardId, @RequestBody Reply reply,
+			@AuthenticationPrincipal PrincipalDetail principalDetail) {
+
+		boardService.writeReply(boardId, reply, principalDetail.getUser());
+
+		return new ResponseDto<>(HttpStatus.OK, 1);
+	}
+
+	@DeleteMapping("/api/board/{boardId}/reply/{replyId}")
+	public ResponseDto<?> deleteReply(@PathVariable String boardId, @PathVariable int replyId,
+			@AuthenticationPrincipal PrincipalDetail principalDetail) {
+
+		try {
+			boardService.deleteReplyById(replyId, principalDetail.getUser().getId());
+		} catch (Exception e) {
+		}
+
+		return new ResponseDto<>(HttpStatus.OK, 1);
 	}
 }

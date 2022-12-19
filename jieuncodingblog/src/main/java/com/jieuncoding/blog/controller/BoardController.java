@@ -1,5 +1,7 @@
 package com.jieuncoding.blog.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +29,24 @@ public class BoardController {
 
 	{
 		Page<Board> boards = boardService.getBoardList(pageable);
+		
+		int PAGENATION_BLOCK_COUNT = 3;
+		
+		int nowPage = boards.getPageable().getPageNumber()+1;
+		int startPage = Math.max(nowPage-PAGENATION_BLOCK_COUNT, 1);
+		int endPage = Math.min(nowPage+PAGENATION_BLOCK_COUNT,  boards.getTotalPages());
+		
+		ArrayList<Integer> pageNumbers= new ArrayList<>();
+		for (int i = startPage; i <= endPage; i++) {
+			pageNumbers.add(i);
+		}
+		
 		model.addAttribute("boards", boards);
+		model.addAttribute("nowPage", nowPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("pageNumbers", pageNumbers);
+		
 
 		return "index";
 	}
@@ -48,5 +67,7 @@ public class BoardController {
 		model.addAttribute("board", boardService.boardDetail(boardId));
 		return "/board/update-form";
 	}
+	
+	
 
 }

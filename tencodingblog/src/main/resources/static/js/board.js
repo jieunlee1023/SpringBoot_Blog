@@ -104,6 +104,21 @@ let index = {
 			
 		});
 	},
+		replyDelete: function(boardId, replyId) {
+
+		$.ajax({
+			type: "DELETE",
+			url: `/api/board/${boardId}/reply/${replyId}`,
+			dataType: "json"
+		}).done(function(resData) {
+			if (resData.status == "OK") {
+				alert("댓글 삭제 성공!");
+				location.href=`/board/${boardId}`
+			}
+		}).fail(function(error) {
+			alert("댓글 삭제 실패!");
+		});
+	}
 }
 
 index.init();

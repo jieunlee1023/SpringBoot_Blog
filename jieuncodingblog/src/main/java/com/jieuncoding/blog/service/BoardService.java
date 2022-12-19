@@ -18,7 +18,7 @@ public class BoardService {
 
 	@Autowired
 	private BoardRepository boardRepository;
-	
+
 	@Autowired
 	private ReplyRepository replyRepository;
 
@@ -57,13 +57,33 @@ public class BoardService {
 	public void writeReply(int boardId, Reply reply, User user) {
 
 		Board board = boardRepository.findById(boardId).orElseThrow(() -> {
-			return new  IllegalArgumentException("해당 게시글은 없습니다.");
+			return new IllegalArgumentException("해당 게시글은 없습니다.");
 		});
-		
+
 		reply.setUser(user);
 		reply.setBoard(board);
 
 		replyRepository.save(reply);
+	}
+
+	public void deleteReplyById(int replyId, int id) {
+
+		Reply replyEntity = replyRepository.findById(replyId).orElseThrow(() -> {
+			return new IllegalArgumentException("해당 글을 찾을 수 없습니다.");
+		});
+
+		try {
+			int dbWriter = replyEntity.getUser().getId();
+			int preicpalId = id;
+
+			if (dbWriter == preicpalId) {
+				replyRepository.deleteById(replyId);
+			}
+		} catch (Exception e) {
+			throw new IllegalArgumentException("본인이 작성한 글이 아닙니다.");
+
+		}
+
 	}
 
 }

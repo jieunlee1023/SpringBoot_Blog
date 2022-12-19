@@ -48,7 +48,7 @@
 				<div >${reply.content}</div>
 				<div class=" d-flex">
 					<div>작성자 : &nbsp; ${reply.user.username} &nbsp; &nbsp; &nbsp;</div>
-					<button class="btn btn-danger badge"  id="btn-reply-delete" >삭제</button>
+					<button class="btn btn-danger badge" onclick="index.replyDelete(${board.id},${reply.id});" >삭제</button>
 				</div>
 			</li>
 		</c:forEach>

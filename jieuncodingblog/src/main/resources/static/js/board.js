@@ -79,7 +79,7 @@ let index = {
 			alert("수정에 실패했습니다!");
 		});
 	},
-		replySave: function() {
+	replySave: function() {
 		let replyData = {
 			boardId: $("#board-id").val(),
 			content: $("#content").val()
@@ -100,6 +100,23 @@ let index = {
 
 		});
 	},
+
+	replyDelete: function(boardId, replyId) {
+
+		$.ajax({
+			type: "DELETE",
+			url: `/api/board/${boardId}/reply/${replyId}`,
+			dataType: "json"
+		}).done(function(resData){
+			if (resData.status == "OK"){
+				alert("댓글 삭제 완료");
+				location.href=`/board/${boardId}`
+			}
+		}).fail(function(error){
+			alert("댓글 삭제 실패!");
+		});
+
+	}
 }
 
 
