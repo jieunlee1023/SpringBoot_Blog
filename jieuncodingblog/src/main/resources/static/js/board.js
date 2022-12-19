@@ -11,9 +11,7 @@ let index = {
 			this.update();
 		});
 		$("#btn-reply-save").bind("click", () => {
-			console.log("여기들어오니");
 			this.replySave();
-
 		});
 	},
 
@@ -118,6 +116,27 @@ let index = {
 
 	},
 
+	replyUpdate: function(boardId, replyId) {
+
+		let data = {
+			content: $('#reply-content').val(),
+		}
+		
+		$.ajax({
+			type: "PUT",
+			url: `/api/board/${boardId}/reply/${replyId}`,
+			data: JSON.stringify(data),
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+		}).done(function(data) {
+			if (data.status == "OK") {
+				alert("수정이 완료되었습니다!");
+				location.href = `/board/${boardId}`
+			}
+		}).fail(function(error) {
+			alert("수정에 실패했습니다!");
+		});
+	},
 
 
 }

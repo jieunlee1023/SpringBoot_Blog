@@ -71,9 +71,10 @@ public class BoardController {
 		return "/board/update-form";
 	}
 	
-	@GetMapping("/api/board/{boardId}/reply/{replyId}/update-reply-form")
+	@GetMapping("/board/{boardId}/reply/{replyId}/update-reply-form")
 	public String updateReplyForm(@PathVariable int boardId,  @PathVariable int replyId, Model model ) {
 		model.addAttribute("board", boardService.boardDetail(boardId));
+		model.addAttribute("replyData", boardService.replyDetail(replyId));
 		return "/board/update-reply-form";
 	}
 
