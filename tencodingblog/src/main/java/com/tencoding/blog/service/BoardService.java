@@ -1,5 +1,7 @@
 package com.tencoding.blog.service;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +19,7 @@ public class BoardService {
 
 	@Autowired
 	private BoardRepository boardRepository;
-	
+
 	@Autowired
 	private ReplyRepository replyRepository;
 
@@ -64,15 +66,35 @@ public class BoardService {
 	@Transactional
 	public void writeReply(int boardId, Reply requestReply, User user) {
 
-		//영속화 되었다
+		// 영속화 되었다
 		Board board = boardRepository.findById(boardId).orElseThrow(() -> {
 			return new IllegalArgumentException("댓글 쓰기 실패 : 게시글이 존재하지 않습니다.");
 		});
-		
+
 		requestReply.setUser(user);
 		requestReply.setBoard(board);
-		
+
 		replyRepository.save(requestReply);
+	}
+
+	@Transactional
+	public void deleteReplyById(int replyId, int requestUserId) {
+
+		Reply replyEntity = replyRepository.findById(replyId).orElseThrow(() -> {
+			return new IllegalArgumentException("해당 글을 찾을 수 없습니다.");
+		});
+
+		try {
+			int dbWriter = replyEntity.getUser().getId();
+			int principalId = requestUserId;
+			if (dbWriter == principalId) {
+				replyRepository.deleteById(replyId);
+			} else {
+				throw new IllegalArgumentException("본인이 작성한 글이 아닙니다.");
+			}
+		} catch (Exception e) {
+		}
+
 	}
 
 }
