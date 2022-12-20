@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.tencoding.blog.auth.PrincipalDetail;
 import com.tencoding.blog.dto.Board;
@@ -45,7 +46,8 @@ public class BoardController {
 		
 		
 //		Page<Board> boards = boardService.getBoardList(pageable);
-		Page<Board> boards = boardService.searchBoard(searchTitle.replace("//", ""), pageable);
+		Page<Board> boards = boardService.searchBoard(
+				searchTitle.replace("//", ""), pageable);
 
 		int PAGENATION_BLOCK_COUNT = 3;
 		// 1. 현재 페이지 앞 뒤로 2칸씩 보이기
@@ -101,9 +103,24 @@ public class BoardController {
 	}
 
 	@GetMapping("/board/{boardId}/reply/{replyId}/update-reply-form")
-	public String updateReplyForm(@PathVariable int boardId,  @PathVariable int replyId, Model model ) {
+	public String updateReplyForm(@PathVariable int boardId,  @PathVariable int replyId, 
+			Model model ) {
 		model.addAttribute("board", boardService.boardDetail(boardId));
 		model.addAttribute("replyData", boardService.replyDetail(replyId));
 		return "/board/update-reply-form";
 	}
+	
+	@PostMapping("/api/board")
+	public String save(Board board, 
+			@AuthenticationPrincipal PrincipalDetail detail) {
+		
+		// 아작스 통신으로 넘겨받은 데이터 콘솔에 뿌려보기
+		// BoarderService
+		// 저장하기 만들기
+		
+		boardService.write(board, detail.getUser());
+		return "redirect:/";
+
+	}
+	
 }

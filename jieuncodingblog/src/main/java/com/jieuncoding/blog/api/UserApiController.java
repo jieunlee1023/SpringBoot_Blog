@@ -29,10 +29,7 @@ public class UserApiController {
 	
 	@PutMapping("/api/user")
 	public ResponseDto<Integer> update(@RequestBody User user){
-		
-		System.out.println("여기들어완?????????????????????????????");
 		userService.updateUser(user);
-		
 		return new ResponseDto<>(HttpStatus.OK, 1);
 		
 	}

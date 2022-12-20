@@ -24,18 +24,19 @@ public class BoardApiController {
 	private BoardService boardService;
 
 	
-	@PostMapping("/api/board")
-	public ModelAndView save(Board board, 
-			@AuthenticationPrincipal PrincipalDetail detail) {
-		
-		// 아작스 통신으로 넘겨받은 데이터 콘솔에 뿌려보기
-		// BoarderService
-		// 저장하기 만들기
-		boardService.write(board, detail.getUser());
-		ModelAndView mav = new ModelAndView("redirect:/");
-		return mav;
-
-	}
+//	@PostMapping("/api/board")
+//	public ModelAndView save(Board board, 
+//			@AuthenticationPrincipal PrincipalDetail detail) {
+//		
+//		// 아작스 통신으로 넘겨받은 데이터 콘솔에 뿌려보기
+//		// BoarderService
+//		// 저장하기 만들기
+//		
+//		boardService.write(board, detail.getUser());
+//		ModelAndView mav = new ModelAndView("redirect:/");
+//		return mav;
+//
+//	}
 
 	@DeleteMapping("/api/board/{id}")
 	public ResponseDto<Integer> deleteDetailById(@PathVariable int id) {
@@ -73,7 +74,8 @@ public class BoardApiController {
 		}
 	 
 		@PutMapping("/api/board/{boardId}/reply/{replyId}")
-		public ResponseDto<?> updateReply(@PathVariable String boardId, @PathVariable int replyId,
+		public ResponseDto<?> updateReply(@PathVariable String boardId, 
+				@PathVariable int replyId,
 				@RequestBody Reply reply) {
 			
 			boardService.modifyReply(replyId, reply);

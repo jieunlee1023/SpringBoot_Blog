@@ -10,7 +10,9 @@
 		<h3>회원정보 수정하기♥</h3>
 		<br>
 		<div class="form-group">
-			<label for="username">username:</label> <input type="text" class="form-control" placeholder="Enter username" id="username" name="username"
+			<label for="username">username:</label> 
+			<input type="text" class="form-control" 
+			placeholder="Enter username" id="username" name="username"
 				value="${principal.user.username}" readonly="readonly">
 		</div>
 

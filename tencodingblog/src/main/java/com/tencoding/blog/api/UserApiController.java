@@ -70,7 +70,8 @@ public class UserApiController {
 		//3. SecurityContextHolder.getContext().setAuthentication(우리가 만든 Authentication ());
 		
 		Authentication authentication = authenticationManager
-				.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+				.authenticate(new UsernamePasswordAuthenticationToken
+						(user.getUsername(), user.getPassword()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
