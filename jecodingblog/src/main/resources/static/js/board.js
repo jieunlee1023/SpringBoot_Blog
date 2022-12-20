@@ -17,12 +17,19 @@ let index = {
 	},
 
 	save: function() {
+
+		let token = $("meta[name='_csrf']").attr("content");
+		let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
 		let data = {
 			title: $("#title").val(),
 			content: $("#content").val(),
 		}
 
 		$.ajax({
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(csrfHeader, token);
+			},
 			type: "POST",
 			url: "/api/board",
 			data: JSON.stringify(data),
@@ -40,12 +47,19 @@ let index = {
 
 
 	update: function() {
+
+		let token = $("meta[name='_csrf']").attr("content");
+		let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
 		let boardId = $('#board-id').attr("data-id");
 		let data = {
 			title: $('#title').val(),
 			content: $('#content').val()
 		}
 		$.ajax({
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(csrfHeader, token);
+			},
 			type: "PUT",
 			url: "/api/board/" + boardId,
 			data: JSON.stringify(data),
@@ -62,9 +76,16 @@ let index = {
 	},
 
 	delete: function() {
+
+		let token = $("meta[name='_csrf']").attr("content");
+		let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
 		let id = $('#board-id').val();
 
 		$.ajax({
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(csrfHeader, token);
+			},
 			type: "DELETE",
 			url: "/api/board/" + id,
 		}).done(function(data) {
@@ -78,12 +99,19 @@ let index = {
 	},
 
 	replySave: function() {
+
+		let token = $("meta[name='_csrf']").attr("content");
+		let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
 		let replyData = {
 			boardId: $("#board-id").val(),
 			content: $("#content").val(),
 		}
 
 		$.ajax({
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(csrfHeader, token);
+			},
 			type: "POST",
 			url: `/api/board/${replyData.boardId}/reply`,
 			data: JSON.stringify(replyData),
@@ -100,7 +128,14 @@ let index = {
 	},
 
 	replyDelete: function(boardId, replyId) {
+
+		let token = $("meta[name='_csrf']").attr("content");
+		let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
 		$.ajax({
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(csrfHeader, token);
+			},
 			type: "DELETE",
 			url: `/api/board/${boardId}/reply/${replyId}`,
 			dataType: "json"
@@ -113,14 +148,19 @@ let index = {
 			alert("댓글 삭제 실패!");
 		});
 	},
-		replyUpdate: function(boardId, replyId) {
 
+	replyUpdate: function(boardId, replyId) {
+
+		let token = $("meta[name='_csrf']").attr("content");
+		let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 		let data = {
 			content: $('#reply-content').val(),
 		}
 
 		$.ajax({
-			
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(csrfHeader, token);
+			},
 			type: "PUT",
 			url: `/api/board/${boardId}/reply/${replyId}`,
 			data: JSON.stringify(data),

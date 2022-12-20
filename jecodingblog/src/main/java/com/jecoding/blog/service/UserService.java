@@ -14,7 +14,7 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 
@@ -25,7 +25,7 @@ public class UserService {
 
 			String rawPassword = user.getPassword();
 			String encPassword = encoder.encode(rawPassword);
-			
+
 			user.setPassword(encPassword);
 			user.setRole(RoleType.USER);
 			userRepository.save(user);
@@ -36,20 +36,28 @@ public class UserService {
 		return -1;
 
 	}
+
 	@Transactional
 	public int updateUser(User user) {
-		
-		User userEntity = userRepository.findById(user.getId()).orElseThrow(()->{
+
+		User userEntity = userRepository.findById(user.getId()).orElseThrow(() -> {
 			return new IllegalArgumentException("해당 유저를 찾을 수 없습니다.");
 		});
 		String rawPassword = user.getPassword();
 		String encPassword = encoder.encode(rawPassword);
-		
+
 		userEntity.setUsername(user.getUsername());
 		userEntity.setPassword(encPassword);
 		userEntity.setEmail(user.getEmail());
-		
+
 		return 1;
+	}
+
+	@Transactional
+	public User searchUserName(String username) {
+		return userRepository.findByUsername(username).orElseGet(() -> {
+			return new User();
+		});
 	}
 
 }

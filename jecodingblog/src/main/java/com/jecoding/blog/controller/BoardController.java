@@ -29,7 +29,7 @@ public class BoardController {
 
 		String searchTitle = q == null ? "" : q;
 		Page<Board> boards = boardService.searchBoard(
-				searchTitle.replace("//", ""), pageable);
+				searchTitle, pageable);
 		
 		int PAGENATION_BLOCK_COUNT = 3;
 		
@@ -46,7 +46,7 @@ public class BoardController {
 		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
-		model.addAttribute("pageNubmers", pageNumbers);
+		model.addAttribute("pageNumbers", pageNumbers);
 		model.addAttribute("q", searchTitle);
 		
 		

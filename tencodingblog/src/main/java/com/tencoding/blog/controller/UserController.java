@@ -89,7 +89,8 @@ public class UserController {
 		HttpEntity<MultiValueMap<String, String>> requestKakaoToken = new HttpEntity<>(params, headers);
 
 		// 헤더 변조 해서 실행 시키는 메서드는 RestTemplate exchange() 이다
-		ResponseEntity<OAuthToken> response = rt.exchange("https://kauth.kakao.com/oauth/token", HttpMethod.POST,
+		ResponseEntity<OAuthToken> response 
+		= rt.exchange("https://kauth.kakao.com/oauth/token", HttpMethod.POST,
 				requestKakaoToken, OAuthToken.class);
 
 		OAuthToken authToken = response.getBody();

@@ -6,11 +6,12 @@
 	<sec:authentication property="principal" var="principal" />
 </sec:authorize>
 
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<meta id="_csrf" name="${_csrf.parameterName}" content="${_csrf.token}">
+<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}">
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -36,7 +37,7 @@
 					<c:otherwise>
 						<li class="nav-item"><a class="nav-link" href="/board/save-form">글쓰기</a></li>
 						<li class="nav-item"><a class="nav-link" href="/user/update-form">회원정보</a></li>
-						<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
+						<li class="nav-item"><a class="nav-link" href="/m-logout">로그아웃</a></li>
 					</c:otherwise>
 				</c:choose>
 			</ul>

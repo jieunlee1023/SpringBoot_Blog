@@ -10,6 +10,11 @@ let index = {
 	},
 
 	save: function() {
+
+		let token = $("meta[name='_csrf']").attr("content");
+		let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+
 		let data = {
 			username: $("#username").val(),
 			password: $("#password").val(),
@@ -17,6 +22,10 @@ let index = {
 		}
 
 		$.ajax({
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(csrfHeader, token);
+			},
+
 			type: "POST",
 			url: "/auth/joinProc",
 			data: JSON.stringify(data),
@@ -28,31 +37,38 @@ let index = {
 			}
 		}).fail(function(error) {
 			alert("회원가입 실패!");
-			
+
 		});
 	},
-	update: function(){
+	update: function() {
+		
+		let token = $("meta[name='_csrf']").attr("content");
+		let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+		
 		let data = {
 			id: $("#id").val(),
-			username : $("#username").val(),
+			username: $("#username").val(),
 			password: $("#password").val(),
 			email: $("#email").val(),
 		}
-		
+
 		$.ajax({
-			type:"PUT",
+			beforeSend: function(xhr){
+				xhr.setRequestHeader(csrfHeader,token);
+			},
+			type: "PUT",
 			url: "/api/user",
 			data: JSON.stringify(data),
-			contentType:"application/json; charset=utf-8",
+			contentType: "application/json; charset=utf-8",
 			dataType: "json"
-		}).done(function(data){
-			if(data.status == "OK"){
+		}).done(function(data) {
+			if (data.status == "OK") {
 				alert("회원정보 수정 완료!");
 			}
-		}).fail(function(){
+		}).fail(function() {
 			alert("회원정보 수정 실패!");
 		});
-		
+
 	},
 
 }
