@@ -1,35 +1,32 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ include file="../layout/header.jsp"%>
 
-
-
-
 <div class="container">
+	<br> <br>
+	<button class="btn btn-secondary" onclick="history.back();">돌아가기</button>
 
-	<button class="btn bg-secondary" onclick="history.back();">돌아가기</button>
-	<c:if test="${board.user.id == principal.user.id }">
-		<a class="btn btn-warning" id="" href="/board/${board.id }/update_form">수정하기</a>
-		<button class="btn btn-danger" id="btn--delete">삭제하기</button>
+	<c:if test="${board.user.id == principal.user.id}">
+		<a class="btn btn-warning" href="/board/${board.id}/update-form">수정하기</a>
+		<button id="btn--delete" class="btn btn-danger">삭제하기</button>
 	</c:if>
-	<br> <br> <br>
+	<br> <br>
 
 	<div>
-		<input type="hidden" id="board-id" value="${board.id}"> 글 번호 : <span id=""> <i>${board.id +100 }</i>
-		</span>
+		<input type="hidden" id="board-id" value="${board.id}"> 글 번호 :
+		<span id=""> <i>${board.id + 100}</i></span>
 	</div>
 	<div>
-		글 작성자 : <span>${board.user.username }</span>
+		작성자 : <span id=""> <i>${board.user.username}</i></span>
 	</div>
-
+	<br> <br>
 
 	<div class="">
-		<h3>${board.title }</h3>
-
+		<h3>${board.title}</h3>
 	</div>
 
-	<div>${board.content }</div>
-
-	<br /> <br />
+	<div>${board.content}</div>
+	<br> <br>
 
 	<div class="card">
 
@@ -50,22 +47,24 @@
 			<li class="list-group-item d-flex justify-content-between">
 				<div>${reply.content}</div>
 				<div class=" d-flex">
-					<div>작성자 : &nbsp; ${reply.user.username} &nbsp; &nbsp; &nbsp;</div>
-					<c:if test="${reply.user.id eq principal.user.id }">
-						<button class="btn btn-danger badge"onclick="index.replyDelete(${board.id},${reply.id});">삭제</button>
+					<c:if test="${reply.user.id == principal.user.id}">
+						<a
+							class="btn btn-warning badge d-flex mr-2 justify-content-center"
+							href="/board/${board.id}/reply/${reply.id}/update-reply-form">수정</a>
+						<button
+							class="btn btn-danger badge d-flex mr-3 justify-content-center"
+							onclick="index.replyDelete(${board.id},${reply.id});">삭제</button>
 					</c:if>
-
+					<div>작성자 : &nbsp; ${reply.user.username} &nbsp; &nbsp;
+						&nbsp;</div>
 				</div>
 			</li>
 		</c:forEach>
 	</ul>
+
+
 </div>
 
-<script src="/js/board.js"></script>
-
-
+<script type="text/javascript" src="/js/board.js"></script>
 
 <%@ include file="../layout/footer.jsp"%>
-
-
-

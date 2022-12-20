@@ -99,4 +99,19 @@ public class BoardService {
 	public Page<Board> searchBoard(String q, Pageable pageable){
 		return boardRepository.findByTitleContaining(q, pageable);
 	}
+
+	@Transactional
+	public int modifyReply(int replyId, Reply reply) {
+		Reply replyEntity = replyRepository.findById(replyId).orElseThrow(() -> {
+			return new IllegalArgumentException("해당 댓글을 찾을 수 없습니다.");
+		});
+		replyEntity.setContent(reply.getContent());
+		return 1;
+	}
+
+	public Reply replyDetail(int id) {
+		return replyRepository.findById(id).orElseThrow(()->{
+			return new IllegalArgumentException("해당 댓글을 찾을 수 없습니다..!");
+		});
+	}
 }

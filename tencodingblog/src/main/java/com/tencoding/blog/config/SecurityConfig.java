@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import com.tencoding.blog.auth.PrincipalDetailService;
 
@@ -58,18 +59,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.csrf().disable(); // 개발 완료 전 테스트시 사용한다.(실 서비스에서는 사용안함 권장)
-
-		http.authorizeHttpRequests()
-		.antMatchers("/auth/**", "/", "/js/**", "/image/**", "/css/**","/test/**")
-		.permitAll() 
-		.anyRequest()
-		.authenticated()
+		//http.csrf().disable(); // 개발 완료 전 테스트시 사용한다.(실 서비스에서는 사용안함 권장)
+		
+		// 쿠키에 담아야한다. jsessionid처럼..!
+		http.csrf()
+			.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 		.and()
-		.formLogin()
-		.loginPage("/auth/login_form")
-		.loginProcessingUrl("/auth/loginProc")
-		.defaultSuccessUrl("/");
+		.authorizeHttpRequests()
+			.antMatchers("/auth/**", "/", "/js/**", "/image/**", "/css/**","/test/**")
+			.permitAll() 
+			.anyRequest()
+			.authenticated()
+		.and()
+			.formLogin()
+			.loginPage("/auth/login_form")
+			.loginProcessingUrl("/auth/loginProc")
+			.defaultSuccessUrl("/");
 //		 .failureUrl("/false/실패시 커스텀 주소)
 		;
 

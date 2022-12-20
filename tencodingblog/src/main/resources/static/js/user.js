@@ -15,6 +15,12 @@ let index = {
 	},
 
 	save: function() {
+
+		let token = $("meta[name='_csrf']").attr("content");
+		let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+		console.log("token 확인:" + token);
+		console.log("csrfHeader 확인:" + csrfHeader);
+
 		// form 태그에 사용자가 입력한 값을 가지고 오기 --> 자바스크립트 변수로
 		let data = {
 			username: $("#username").val(),
@@ -26,6 +32,11 @@ let index = {
 		//  ajax 통신 구현
 		//$.ajax().done().fail(); 
 		$.ajax({
+
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(csrfHeader, token);
+			},
+
 			//회원가입 요청
 			type: "POST",
 			url: "/auth/joinProc",
@@ -71,6 +82,10 @@ let index = {
  */
 
 	update: function() {
+
+		let token = $("meta[name='_csrf']").attr("content");
+		let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
 		let data = {
 			id: $("#id").val(),
 			username: $("#username").val(),
@@ -80,7 +95,11 @@ let index = {
 
 		// 방어적 코드... (password, email 입력했는지)
 
-	$.ajax({
+		$.ajax({
+
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(csrfHeader, token);
+			},
 			type: "PUT",
 			url: "/api/user",
 			data: JSON.stringify(data),

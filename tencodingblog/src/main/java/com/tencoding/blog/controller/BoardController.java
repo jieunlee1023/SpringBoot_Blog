@@ -2,18 +2,26 @@ package com.tencoding.blog.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.tencoding.blog.auth.PrincipalDetail;
 import com.tencoding.blog.dto.Board;
+import com.tencoding.blog.dto.ResponseDto;
 import com.tencoding.blog.service.BoardService;
 
 @Controller
@@ -25,6 +33,7 @@ public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
+	
 
 	// ?page =2
 	@GetMapping({ "", "/", "/board/search" })
@@ -73,6 +82,7 @@ public class BoardController {
 	// page. first = true, false <--첫번째 페이지면 true
 	// page. last = true, false <-- 마지막 페이지면 ture
 
+
 	@GetMapping("/board/save_form")
 	public String saveForm() {
 		return "/board/save_form";
@@ -90,4 +100,10 @@ public class BoardController {
 		return "/board/update_form";
 	}
 
+	@GetMapping("/board/{boardId}/reply/{replyId}/update-reply-form")
+	public String updateReplyForm(@PathVariable int boardId,  @PathVariable int replyId, Model model ) {
+		model.addAttribute("board", boardService.boardDetail(boardId));
+		model.addAttribute("replyData", boardService.replyDetail(replyId));
+		return "/board/update-reply-form";
+	}
 }

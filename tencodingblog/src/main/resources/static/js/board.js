@@ -16,10 +16,13 @@ let index = {
 		});
 	},
 	save: function() {
-		
+
+
 		let xcheckTitle = XSSCheck($("#title").val());
-		console.log(xcheckTitle);
-		
+
+		let token = $("meta[name='_csrf']").attr("content");
+		let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
 		let data = {
 			title: xcheckTitle,
 			content: $("#content").val()
@@ -27,6 +30,9 @@ let index = {
 
 
 		$.ajax({
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(csrfHeader, token);
+			},
 			type: "POST",
 			url: "/api/board",
 			data: JSON.stringify(data),
@@ -39,17 +45,22 @@ let index = {
 				location.href = "/";
 			}
 		}).fail((error) => {
-			alert(error.responseJSON);
+			alert("저장실패!");
 		});
-		
-	
+
+
 	},
 
 	deleteById: function() {
 		let id = $('#board-id').val();
 
+		let token = $("meta[name='_csrf']").attr("content");
+		let csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
 		$.ajax({
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(csrfHeader, token);
+			},
 			type: "DELETE",
 			url: "/api/board/" + id
 		}).done(function(data, textStatus, xhr) {
@@ -68,12 +79,18 @@ let index = {
 		// data-*  값을 가지고 오기 위해서 JQuery --> (선택자).attr("data-*");
 		let boardId = $("#board-id").attr("data-id");
 
+		let token = $("meta[name='_csrf']").attr("content");
+		let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
 		let data = {
 			title: $('#title').val(),
 			content: $('#content').val(),
 		}
 
 		$.ajax({
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(csrfHeader, token);
+			},
 			type: "PUT",
 			url: "/api/board/" + boardId,
 			data: JSON.stringify(data),
@@ -90,6 +107,9 @@ let index = {
 
 	},
 	replySave: function() {
+		let token = $("meta[name='_csrf']").attr("content");
+		let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
 		let replyData = {
 			boardId: $("#board-id").val(), //fk (board PK)
 			content: $("#content").val(),
@@ -97,6 +117,9 @@ let index = {
 		};
 
 		$.ajax({
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(csrfHeader, token);
+			},
 			type: "POST",
 			url: `/api/board/${replyData.boardId}/reply`,
 			data: JSON.stringify(replyData),
@@ -114,7 +137,15 @@ let index = {
 	},
 	replyDelete: function(boardId, replyId) {
 
+		let token = $("meta[name='_csrf']").attr("content");
+		let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
 		$.ajax({
+
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(csrfHeader, token);
+			},
+
 			type: "DELETE",
 			url: `/api/board/${boardId}/reply/${replyId}`,
 			dataType: "json"
@@ -126,7 +157,36 @@ let index = {
 		}).fail(function(error) {
 			alert("댓글 삭제 실패!");
 		});
-	}
+	},
+
+	replyUpdate: function(boardId, replyId) {
+
+		let token = $("meta[name='_csrf']").attr("content");
+		let csrfHeader = $("meta[name='_csrf_header']").attr("content");
+		
+		let data = {
+			content: $('#reply-content').val(),
+		}
+
+		$.ajax({
+			
+			beforeSend: function(xhr){
+				xhr.setRequestHeader(csrfHeader,token);
+			},
+			type: "PUT",
+			url: `/api/board/${boardId}/reply/${replyId}`,
+			data: JSON.stringify(data),
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+		}).done(function(data) {
+			if (data.status == "OK") {
+				alert("수정이 완료되었습니다!");
+				location.href = `/board/${boardId}`
+			}
+		}).fail(function(error) {
+			alert("수정에 실패했습니다!");
+		});
+	},
 }
 
 function XSSCheck(str, level) {

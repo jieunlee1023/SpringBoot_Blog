@@ -6,6 +6,7 @@
 <div class="container">
 	<form action="/auth/loginProc" method="post">
 		<div class="form-group">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 			<label for="username">username:</label> <input type="text" class="form-control" placeholder="Enter username" id="username" name="username"
 				value="teco">
 		</div>

@@ -1,5 +1,7 @@
 package com.tencoding.blog.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -148,5 +151,18 @@ public class UserController {
 		
 		return "redirect:/";
 	}
+	
+	
+	// 시큐리티 전에 컨트롤러에서 먼저 낚아 채서 여기로 옴!
+	// 기존의 로그아웃 처리를 하지 않고, 우리가 재정의한 로그아웃 처리로 넘어옴
+	@GetMapping("/m-logout")
+	public String logout(HttpServletRequest req, HttpServletResponse res) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if(authentication != null) {
+			new SecurityContextLogoutHandler().logout(req, res, authentication);
+		}
+		return "redirect:/";
+	}
+	
 
 }

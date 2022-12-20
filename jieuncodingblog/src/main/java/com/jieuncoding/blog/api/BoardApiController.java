@@ -65,8 +65,7 @@ public class BoardApiController {
 
 	@PutMapping("/api/board/{boardId}/reply/{replyId}")
 	public ResponseDto<?> updateReply(@PathVariable String boardId, @PathVariable int replyId,
-			@RequestBody Reply reply,
-			@AuthenticationPrincipal PrincipalDetail principalDetail) {
+			@RequestBody Reply reply) {
 		
 		boardService.modifyReply(replyId, reply);
 		return new ResponseDto<>(HttpStatus.OK, 1);
