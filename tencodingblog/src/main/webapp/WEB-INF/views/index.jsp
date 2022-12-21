@@ -9,10 +9,12 @@
 			<button type="submit" class="btn btn-warning ">검색</button>
 		</form>
 	</div>
-
-
 	<c:if test="${boards.totalPages==0}">
-		<div class="container">게시글이 존재하지 않습니다.</div>
+		<br><br><br><br><br><br><br><br>
+		<div class="d-flex justify-content-center">
+			<h4 class="justify-content-end">게시글이 존재하지 않습니다.</h4>
+			</div>
+		<br><br><br><br><br><br><br><br>
 	</c:if>
 
 

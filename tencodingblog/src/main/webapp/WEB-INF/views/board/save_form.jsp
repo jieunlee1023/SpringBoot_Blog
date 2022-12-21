@@ -4,7 +4,7 @@
 
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-
+<br><br>
 <div class="container">
 	<form action="/api/board" method="post">
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
