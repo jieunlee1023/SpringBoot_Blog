@@ -52,12 +52,11 @@ public class BoardApiController {
 	}
 	
 	@PostMapping("/api/board/{boardId}/reply")
-	public ResponseDto<Integer> replySave(@PathVariable int boardId , 
+	public ResponseDto<Reply> replySave(@PathVariable int boardId , 
 			@RequestBody Reply requestReply, 
 			@AuthenticationPrincipal PrincipalDetail principalDetail ){
-		boardService.writeReply(boardId, requestReply, principalDetail.getUser());
-		
-		return new ResponseDto<>(HttpStatus.OK, 1);
+		Reply replyEntity = boardService.writeReply(boardId, requestReply, principalDetail.getUser());
+		return new ResponseDto<Reply>(HttpStatus.OK,replyEntity);
 	}
 	 @DeleteMapping("/api/board/{boardId}/reply/{replyId}")
 		public ResponseDto<?> deleteReplyById(@PathVariable int boardId, 

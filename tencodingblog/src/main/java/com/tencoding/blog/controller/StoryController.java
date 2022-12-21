@@ -5,15 +5,24 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import com.tencoding.blog.auth.PrincipalDetail;
 import com.tencoding.blog.dto.Image;
+import com.tencoding.blog.dto.Kakaopay;
 import com.tencoding.blog.dto.RequestFileDto;
 import com.tencoding.blog.service.StoryService;
 
@@ -53,4 +62,39 @@ public class StoryController {
 		return "redirect:/story/home";
 	}
 
+	
+	//http://localhost:9090/story/kakaopay
+	@GetMapping("/kakaopay")
+	@ResponseBody
+	public Kakaopay kakaoPay() {
+		RestTemplate rt = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.add("Authorization", "KakaoAK 88fa30940fa732bbc640e78e7a446b6d");
+		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		
+		MultiValueMap<String, String> params = new  LinkedMultiValueMap<>();
+		params.add("cid", "TC0ONETIME");
+		params.add("partner_order_id", "9090");
+		params.add("partner_user_id", "jieun");
+		params.add("item_name", "스티커");
+		params.add("quantity", "1");
+		params.add("total_amount", "1");
+		params.add("tax_free_amount", "0");
+		params.add("approval_url", "http://localhost:9090/");
+		params.add("cancel_url", "http://localhost:9090/");
+		params.add("fail_url", "http://localhost:9090/");
+		
+		HttpEntity<MultiValueMap<String, String>> requestKakaopay
+		= new HttpEntity<>(params,headers);
+		
+		ResponseEntity<Kakaopay> response
+		= rt.exchange(
+				"https://kapi.kakao.com/v1/payment/ready", 
+				HttpMethod.POST, 
+				requestKakaopay, 
+				Kakaopay.class);
+		
+		return response.getBody();
+	}
 }

@@ -31,7 +31,7 @@
 	<div class="card">
 
 		<div class="card-body">
-			<textarea rows="1" class="form-control" id="content"></textarea>
+			<textarea rows="1" class="form-control" id="reply--content"></textarea>
 		</div>
 		<div class="card-footer">
 			<button class="btn btn-secondary d-flex" id="btn-reply-save">등록</button>
@@ -42,12 +42,12 @@
 	<div class="card">
 		<div class="card-header">댓글 목록</div>
 	</div>
-	<ul class="list-group">
+	<ul class="list-group" id="reply--box">
 		<c:forEach var="reply" items="${board.replys}">
-			<li class="list-group-item d-flex justify-content-between">
+			<li class="list-group-item d-flex justify-content-between" id="reply--${reply.id}">
 				<div>${reply.content}</div>
 				<div class=" d-flex">
-					<c:if test="${reply.user.id == principal.user.id}">
+					<c:if test="${reply.user.id eq principal.user.id}">
 						<a
 							class="btn btn-warning badge d-flex mr-2 justify-content-center"
 							href="/board/${board.id}/reply/${reply.id}/update-reply-form">수정</a>

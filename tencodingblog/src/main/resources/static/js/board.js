@@ -112,7 +112,7 @@ let index = {
 
 		let replyData = {
 			boardId: $("#board-id").val(), //fk (board PK)
-			content: $("#content").val(),
+			content: $("#reply--content").val(),
 
 		};
 
@@ -128,7 +128,9 @@ let index = {
 		}).done(function(data) {
 			if (data.status == "OK") {
 				alert("댓글 작성이 완료되었습니다!");
-				location.href = `/board/${replyData.boardId}`;
+				//location.href = `/board/${replyData.boardId}`;
+				console.log(data.body);
+				addReplyAlement(data.body);
 			}
 		}).fail((error) => {
 			alert("댓글 작성에 실패하였습니다.");
@@ -163,15 +165,15 @@ let index = {
 
 		let token = $("meta[name='_csrf']").attr("content");
 		let csrfHeader = $("meta[name='_csrf_header']").attr("content");
-		
+
 		let data = {
 			content: $('#reply-content').val(),
 		}
 
 		$.ajax({
-			
-			beforeSend: function(xhr){
-				xhr.setRequestHeader(csrfHeader,token);
+
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(csrfHeader, token);
 			},
 			type: "PUT",
 			url: `/api/board/${boardId}/reply/${replyId}`,
@@ -188,6 +190,25 @@ let index = {
 		});
 	},
 }
+
+function addReplyAlement(reply) {
+	let childElement = `<li class="list-group-item d-flex justify-content-between" id="reply--${reply.id}">
+				<div>${reply.content}</div>
+				<div class=" d-flex">
+						<a
+							class="btn btn-warning badge d-flex mr-2 justify-content-center"
+							href="/board/${reply.board.id}/reply/${reply.id}/update-reply-form">수정</a>
+						<button
+							class="btn btn-danger badge d-flex mr-3 justify-content-center"
+							onclick="index.replyDelete(${reply.board.id},${reply.id});">삭제</button>
+					<div>작성자 : &nbsp; ${reply.user.username} &nbsp; &nbsp;&nbsp;</div>
+				</div>
+			</li>`;
+
+	$("#reply--box").prepend(childElement);
+	$("#reply--content").val("");
+}
+
 
 function XSSCheck(str, level) {
 	if (level == undefined || level == 0) {
