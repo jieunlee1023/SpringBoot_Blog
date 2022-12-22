@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tencoding.blog.auth.PrincipalDetail;
 import com.tencoding.blog.dto.Image;
 import com.tencoding.blog.dto.RequestFileDto;
+import com.tencoding.blog.dto.User;
 import com.tencoding.blog.repository.imageRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -56,8 +57,10 @@ public class StoryService {
 	}
 
 	@Transactional
-	public Page<Image> getImageList(Pageable pageable) {
-		return imageRepository.findAll(pageable);
+	public Page<Image> searchBoard(String q, Pageable pageable){
+		return imageRepository.findByStoryTextContaining(q,pageable);
 	}
+
+
 	
 }

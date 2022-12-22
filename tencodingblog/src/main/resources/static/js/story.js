@@ -25,7 +25,6 @@ let index = {
 				alert("카카오페이결제를 시작합니다!")
 				//alert(res.tid); //결제 고유 번호
 				var kakaoPaymentBox = res.next_redirect_pc_url;
-				//window.open(box); // 새창 열기
 				location.href = kakaoPaymentBox;
 			}
 		}).fail(function(error) {
