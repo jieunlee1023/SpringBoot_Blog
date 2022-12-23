@@ -29,6 +29,9 @@
 			
 		<a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=YW3BQa3yp7Tq7ro9AOFA&state=<%=state%>&redirect_uri=<%=redirectURI %>">
 			<img alt="네이버로그인" src="/image/naver.png" width="70" height="40"></a>
+			
+			<a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=789881452915-9mdacp2nqc8j8kvjkiqu96jud7ae9vce.apps.googleusercontent.com&redirect_uri=http://localhost:9090/auth/google/callback&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email">
+			<img alt="구글로그인" src="/image/google_login.png" width="100" height="40"></a>
 	</form>
 </div>
 

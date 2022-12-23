@@ -42,7 +42,7 @@ let index = {
 			console.log(data);
 			if (data.status == "OK") {
 				alert("저장완료!");
-				location.href = "/";
+//				location.href = "/";
 			}
 		}).fail((error) => {
 			alert("저장실패!");

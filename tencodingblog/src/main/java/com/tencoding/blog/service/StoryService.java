@@ -58,7 +58,7 @@ public class StoryService {
 
 	@Transactional
 	public Page<Image> searchBoard(String q, Pageable pageable){
-		return imageRepository.findByStoryTextContaining(q,pageable);
+		return imageRepository.findByStoryText(q,pageable);
 	}
 
 

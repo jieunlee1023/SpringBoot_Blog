@@ -82,7 +82,7 @@ public class UserService {
 	}
 	@Transactional
 	public User searchUserName(String username) {
-		return userRepository.findByUsername(username).orElseGet(() -> {
+		return userRepository.findByUsername1(username).orElseGet(() -> {
 			return new User();
 		});
 	}

@@ -13,6 +13,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import com.tencoding.blog.dto.GoogleProfile;
 import com.tencoding.blog.dto.KakaoAccount;
 import com.tencoding.blog.dto.KakaoProfile;
 import com.tencoding.blog.dto.NaverProfile;
@@ -40,7 +42,7 @@ public class UserController {
 	// yml 초기 파라미터를 가져올 수 있다.
 	@Value("${tenco.key}")
 	private String tencoKey;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -74,7 +76,7 @@ public class UserController {
 
 	// 페이지에서 데이터를 리턴하는 방법
 	@GetMapping("/auth/kakao/callback")
-	//@ResponseBody // data를 리턴함
+	// @ResponseBody // data를 리턴함
 	public String kakaoCallback(@RequestParam String code) {
 		// 여기서 카카오 서버에서 보내 준 code 값을 받을 수 있다.
 		// 다음 단계는 토큰 발급 받기
@@ -91,12 +93,10 @@ public class UserController {
 		params.add("redirect_uri", "http://localhost:9090/auth/kakao/callback");
 		params.add("code", code);
 
-		HttpEntity<MultiValueMap<String, String>> requestKakaoToken 
-		= new HttpEntity<>(params, headers);
+		HttpEntity<MultiValueMap<String, String>> requestKakaoToken = new HttpEntity<>(params, headers);
 
 		// 헤더 변조 해서 실행 시키는 메서드는 RestTemplate exchange() 이다
-		ResponseEntity<OAuthToken> response 
-		= rt.exchange("https://kauth.kakao.com/oauth/token", HttpMethod.POST,
+		ResponseEntity<OAuthToken> response = rt.exchange("https://kauth.kakao.com/oauth/token", HttpMethod.POST,
 				requestKakaoToken, OAuthToken.class);
 
 		OAuthToken authToken = response.getBody();
@@ -114,12 +114,10 @@ public class UserController {
 		headers2.add("Content-Type", "application/x-www-form-urlencoded;");
 
 		// 바디
-		HttpEntity<MultiValueMap<String, String>> kakaoDataRequest 
-		= new HttpEntity<>(headers2);
+		HttpEntity<MultiValueMap<String, String>> kakaoDataRequest = new HttpEntity<>(headers2);
 
 		// 파싱 받을 DTO 만들어야 함
-		ResponseEntity<KakaoProfile> kakaoDataResponse 
-		= rt2.exchange("https://kapi.kakao.com/v2/user/me",
+		ResponseEntity<KakaoProfile> kakaoDataResponse = rt2.exchange("https://kapi.kakao.com/v2/user/me",
 				HttpMethod.POST, kakaoDataRequest, KakaoProfile.class);
 
 		System.out.println("kakaoDataResponse : " + kakaoDataResponse);
@@ -142,8 +140,7 @@ public class UserController {
 		// 여기서는 user의 id를 당연히 사용 불가
 		// 그러면 username으로 검색하는 기능을 만들어 주어야 한다.
 		User originUser = userService.searchUserName(kakaoUser.getUsername());
-		
-	
+
 		if (originUser.getUsername() == null) {
 			System.out.println("신규 회원이기 때문에, 회원가입을 진행");
 			userService.saveUser(kakaoUser);
@@ -153,32 +150,34 @@ public class UserController {
 
 		// 신규로 회원가입이든, 기존 한번 가입했던 유저이든 무조건 소셜 로그인이면, 세션을 생성해주어야 한다.
 		// 자동 로그인 처리 -> 시큐리티 세션에다가 강제 저장
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(), tencoKey));
+		Authentication authentication = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(), tencoKey));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		
+
 		return "redirect:/";
 	}
-	
-	
+
 	// 시큐리티 전에 컨트롤러에서 먼저 낚아 채서 여기로 옴!
 	// 기존의 로그아웃 처리를 하지 않고, 우리가 재정의한 로그아웃 처리로 넘어옴
 	@GetMapping("/m-logout")
 	public String logout(HttpServletRequest req, HttpServletResponse res) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if(authentication != null) {
+		if (authentication != null) {
 			new SecurityContextLogoutHandler().logout(req, res, authentication);
 		}
 		return "redirect:/";
 	}
-	
 
 	@GetMapping("/auth/naver/callback")
-	public String  NaverCallback(@RequestParam String code,  @RequestParam String state) {
-		
+	public String naverCallback(@RequestParam String code, @RequestParam String state) {
+
+		System.out.println("0000000000000000000000000000000000000000");
+
 		RestTemplate rt = new RestTemplate();
+		//rt.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 		HttpHeaders headers = new HttpHeaders();
+		
 		
 		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 		
@@ -188,56 +187,105 @@ public class UserController {
 		params.add("client_secret", "UUvSd2cqc0");
 		params.add("code", code);
 		params.add("state", state);
+
 		
-		HttpEntity<MultiValueMap<String, String>> requestNaverToken 
-		= new HttpEntity<>(params, headers);
-		
-		ResponseEntity<OAuthToken > response 
-		= rt.exchange("https://nid.naver.com/oauth2.0/token",
-				HttpMethod.POST,
-				requestNaverToken,
-				OAuthToken .class);
-		
+		HttpEntity<MultiValueMap<String, String>> requestNaverToken = new HttpEntity<>(params, headers);
+		ResponseEntity<OAuthToken> response = rt
+				.exchange("https://nid.naver.com/oauth2.0/token", HttpMethod.POST,
+				requestNaverToken, OAuthToken.class);
+
 		/////////////////////////////////////////////////////////////
-		
+
 		RestTemplate rt2 = new RestTemplate();
-		
+
 		HttpHeaders headers2 = new HttpHeaders();
-		headers2.add("Authorization", "Bearer AAAAN9wrsWBWm5yBz8JPnajufxicLzCJrYGukMMEFhALlLFRGL1Q9mUTujI_32DabX-XxXfC-eURChjpWSH8b5ptve8");
+		headers2.add("Authorization",
+				"Bearer AAAAN9wrsWBWm5yBz8JPnajufxicLzCJrYGukMMEFhALlLFRGL1Q9mUTujI_32DabX-XxXfC-eURChjpWSH8b5ptve8");
 		headers2.add("Content-type", "application/x-www-form-urlencoded;");
 
-		HttpEntity<MultiValueMap<String, String>> naverDataRequest 
-		= new HttpEntity<>(headers2);
+		HttpEntity<MultiValueMap<String, String>> naverDataRequest = new HttpEntity<>(headers2);
+
+		ResponseEntity<NaverProfile> naverDataResponse = rt2.exchange("https://openapi.naver.com/v1/nid/me",
+				HttpMethod.POST, naverDataRequest, NaverProfile.class);
 		
-		ResponseEntity<NaverProfile> kakaoDataResponse 
-		= rt2.exchange("https://openapi.naver.com/v1/nid/me", 	HttpMethod.POST,
-				naverDataRequest,
-				NaverProfile.class);
+		NaverProfile account = naverDataResponse.getBody();
+
+		User naverUser = User.builder().username(account.response.name + "_" + account.response.id)
+				.email(account.response.email).password(tencoKey).oauth("naver").build();
+
 		
-		NaverProfile account = kakaoDataResponse.getBody();
-		
-		User naverUser = User.builder()
-				.username(account.response.name+"_"+account.response.id)
-				.email(account.response.email)
-				.password(tencoKey)
-				.oauth("naver")
-				.build();
 		
 		System.out.println(" naver ===> " + naverUser);
-		
 		User orginUser = userService.searchUserName(naverUser.getUsername());
-		
+
 		if (orginUser.getUsername() == null) {
 			userService.saveUser(naverUser);
 		}
-		
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(naverUser.getUsername(), tencoKey));
-				
+
+		Authentication authentication = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(naverUser.getUsername(), tencoKey));
+
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		
+
 		return "redirect:/";
 	}
-	
-	
+
+	@GetMapping("/auth/google/callback")
+	public String googleCallback(@RequestParam String code, @RequestParam String scope) {
+
+		RestTemplate rt = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+		// 바디 만들기
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+		params.add("code", code);
+		params.add("client_id", "789881452915-9mdacp2nqc8j8kvjkiqu96jud7ae9vce.apps.googleusercontent.com");
+		params.add("client_secret", "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");
+		params.add("redirect_uri", "http://localhost:9090/auth/google/callback");
+		params.add("grant_type", "authorization_code");
+
+		HttpEntity<MultiValueMap<String, String>> requestGoogleToken = new HttpEntity<>(params, headers);
+
+		ResponseEntity<OAuthToken> response = rt.exchange("https://oauth2.googleapis.com/token", HttpMethod.POST,
+				requestGoogleToken, OAuthToken.class);
+
+		// 사용자 정보 받기
+		String accessToken = response.getBody().accessToken;
+		String tokentype = response.getBody().tokenType;
+
+		RestTemplate rt2 = new RestTemplate();
+		// header
+		HttpHeaders headers2 = new HttpHeaders();
+		headers2.add("Authorization", tokentype + accessToken);
+		headers2.add("Content-type", "application/x-www-form-urlencoded;");
+
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(headers2);
+		ResponseEntity<GoogleProfile> response2 = rt2
+				.exchange("https://www.googleapis.com/oauth2/v1/userinfo",
+				HttpMethod.GET, 
+				request, 
+				GoogleProfile.class);
+
+		GoogleProfile account = response2.getBody();
+
+		User googleUser = User.builder()
+				.username(account.name + "_" + account.id)
+				.email(account.email)
+				.password(tencoKey)
+				.oauth("google")
+				.build();
+
+		User originUser = userService.searchUserName(googleUser.getUsername());
+		if (originUser.getUsername() == null) {
+			userService.saveUser(googleUser);
+		}
+		
+		Authentication authentication = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(googleUser.getUsername(), tencoKey));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+
+		return "redirect:/";
+	}
+
 }

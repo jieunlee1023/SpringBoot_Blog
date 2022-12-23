@@ -21,7 +21,9 @@ public class BoardService {
 	@Autowired
 	private ReplyRepository replyRepository;
 
+	@Transactional
 	public void write(Board board, User user) {
+		System.out.println("333333333333333333333333");
 		// 가독성을 위해 한번 더 지정
 		board.setCount(0);
 		board.setUser(user);
@@ -98,7 +100,7 @@ public class BoardService {
 
 	@Transactional
 	public Page<Board> searchBoard(String q, Pageable pageable){
-		return boardRepository.findByTitleContaining(q, pageable);
+		return boardRepository.findByTitleContaining1(q, pageable);
 	}
 
 	@Transactional

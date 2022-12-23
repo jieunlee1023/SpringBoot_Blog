@@ -114,6 +114,7 @@ public class BoardController {
 	public String save(Board board, 
 			@AuthenticationPrincipal PrincipalDetail detail) {
 		
+		System.out.println("2222222222222222222222222222222");
 		// 아작스 통신으로 넘겨받은 데이터 콘솔에 뿌려보기
 		// BoarderService
 		// 저장하기 만들기
