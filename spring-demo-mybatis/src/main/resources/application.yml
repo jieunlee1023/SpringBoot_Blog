@@ -1,0 +1,20 @@
+server:
+  port: 8888
+  servlet:
+    context-path: /
+  
+
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp    
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/myblog2?serverTimezone=Asia/Seoul
+    username: spring2
+    password: 1q2w3e4r5t!
+    
+#mybatis 관련 설정  
+mybatis:
+  mapper-locations: mapper/*.xml

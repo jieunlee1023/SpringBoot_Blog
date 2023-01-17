@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+*{
+	margin: 0px;
+}
+
+html, body {
+	height: 100%;
+	box-sizing: border-box;
+}
+
+.m--wrap{
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.f-wrap{
+	display: flex;
+	flex-direction: column;
+	margin-top: auto;
+}
+footer{
+	display: flex;
+	flex-direction: column;
+	background-color: #e9ecef;
+	padding: 30px;
+	align-items: center;
+}

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.mybatis.model.dao.UserDAO">
+	<select id="findAll"
+		resultType="com.demo.mybatis.model.dto.common.User">
+		SELECT * FROM user;
+	</select>
+
+	<insert id="insert"
+		parameterType="com.demo.mybatis.model.dto.common.User">
+		INSERT INTO
+		user(username, password, email, profile,
+		role, createDate)
+		VALUES(#{username},
+		#{password}, #{email},#{profile},
+		#{role}, NOW());
+	</insert>
+
+	<update id="update"
+		parameterType="com.demo.mybatis.model.dto.common.User">
+		UPDATE user
+		SET password = #{password},
+		email =  #{email},
+		profile= #{profile},
+		role =  #{role}
+		WHERE id =  #{id};
+
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM user
+		WHERE id =
+		#{id};
+	</delete>
+
+</mapper>
