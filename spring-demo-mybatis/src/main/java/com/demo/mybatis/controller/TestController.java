@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.demo.mybatis.model.dto.common.User;
 import com.demo.mybatis.service.UserService;
+import com.demo.mybatis.utils.Script;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +22,12 @@ import lombok.RequiredArgsConstructor;
 public class TestController {
 
 	private final UserService userService;
+	
+	@GetMapping("/req-test")
+	@ResponseBody
+	public String reqTest() {
+		return Script.back("권한이  없습니다.");
+	}
 
 	@GetMapping("/user-list")
 	@ResponseBody

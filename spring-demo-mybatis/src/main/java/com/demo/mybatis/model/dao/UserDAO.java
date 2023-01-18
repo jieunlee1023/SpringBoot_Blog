@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.demo.mybatis.model.dto.common.User;
+import com.demo.mybatis.model.dto.req.SigninDto;
 
 @Mapper
 public interface UserDAO {
@@ -12,4 +13,6 @@ public interface UserDAO {
 	public List<User> findAll();
 	public int deleteById(int userId);
 	public int update(User user);
+	
+	public User findByUsername(SigninDto signinDto);
 }

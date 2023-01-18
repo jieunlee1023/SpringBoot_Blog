@@ -7,6 +7,12 @@
 		resultType="com.demo.mybatis.model.dto.common.User">
 		SELECT * FROM user;
 	</select>
+	
+	<select id="findByUsername"
+		resultType="com.demo.mybatis.model.dto.common.User">
+		SELECT * FROM user
+		WHERE username = #{username} ;
+	</select>
 
 	<insert id="insert"
 		parameterType="com.demo.mybatis.model.dto.common.User">
@@ -15,7 +21,7 @@
 		role, createDate)
 		VALUES(#{username},
 		#{password}, #{email},#{profile},
-		#{role}, NOW());
+		#{role}, #{createDate});
 	</insert>
 
 	<update id="update"

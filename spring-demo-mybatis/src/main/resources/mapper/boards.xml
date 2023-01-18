@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.mybatis.model.dao.BoardDAO">
+
+	<insert id="insert"
+		parameterType="com.demo.mybatis.model.dto.common.BoardDto">
+		INSERT INTO
+		board(title, content, userId, createDate)
+		VALUES (#{board.title}, #{board.content}, #{userId}, NOW());
+	</insert>
+
+	<select id="selectAll"
+		resultType="com.demo.mybatis.model.dto.common.BoardDto">
+		SELECT *
+		FROM board
+		LEFT OUTER JOIN user
+		ON user.id =
+		board.userId;
+	</select>
+
+	<select id="findById"
+		resultType="com.demo.mybatis.model.dto.common.BoardDto">
+		SELECT *
+		FROM board
+		LEFT OUTER JOIN user
+		ON user.id =
+		board.userId
+		WHERE board.id = #{boardId};
+	</select>
+
+	<delete id="delete" parameterType="Integer">
+		DELETE
+		FROM board
+		WHERE id =#{boardId};
+	</delete>
+
+
+</mapper>
