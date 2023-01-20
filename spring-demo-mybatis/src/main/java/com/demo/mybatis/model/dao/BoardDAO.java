@@ -9,8 +9,13 @@ import com.demo.mybatis.model.dto.common.BoardDto;
 
 @Mapper
 public interface BoardDAO {
-	public  int insert( @Param("board") BoardDto boardDto, @Param("userId") int userId);
+	public int insert(@Param("board") BoardDto boardDto, @Param("userId") int userId);
+
 	public List<BoardDto> selectAll();
+
 	public BoardDto findById(int boardId);
+
 	public int delete(int boardId);
+
+	public int modifyByBoardId(BoardDto boardDto);
 }

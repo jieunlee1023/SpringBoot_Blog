@@ -7,6 +7,7 @@ import lombok.ToString;
 @ToString
 public class SigninDto {
 	
+	private boolean remember;
 	private String username;
 	private String password;
 

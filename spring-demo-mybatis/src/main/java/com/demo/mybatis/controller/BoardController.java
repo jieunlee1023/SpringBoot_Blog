@@ -17,14 +17,14 @@ import com.demo.mybatis.service.BoardService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("/board")
+
 @RequiredArgsConstructor
 public class BoardController {
 
 	private final BoardService boardService;
 
 	// list
-	@GetMapping({ "", "/", "/list" })
+	@GetMapping({ "", "/", "/board/list" })
 	public String list(Model model) {
 		List<BoardDto> list = boardService.selectAll();
 		model.addAttribute("boardList", list);
@@ -32,12 +32,12 @@ public class BoardController {
 	}
 
 	// 글쓰기화면
-	@GetMapping("/write-form")
+	@GetMapping("/auth/board/write-form")
 	public String writeForm() {
 		return "board/write_form";
 	}
 
-	@GetMapping("/detail/{boardId}")
+	@GetMapping("/board/detail/{boardId}")
 	public String detail(@PathVariable(name = "boardId") int boardId, Model model, HttpSession reqSession) {
 
 		BoardDto boardDto = boardService.findById(boardId);
@@ -52,6 +52,12 @@ public class BoardController {
 		model.addAttribute("boardData", boardDto);
 		model.addAttribute("isWriter", isWriter);
 		return "board/detail";
+	}
+	
+	@GetMapping("/board/modify/{boardId}")
+	public String modifyForm(@PathVariable Integer boardId, Model model) {
+		model.addAttribute("boardData", boardService.findById(boardId));
+		return "board/update_form";
 	}
 
 }

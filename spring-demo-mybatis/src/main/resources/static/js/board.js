@@ -6,6 +6,9 @@ let boardInit = {
 		$("#board--delete").bind("click", () => {
 			this.delete();
 		});
+		$("#update--btn").bind("click", () => {
+			this.update();
+		});
 	},
 	save: function() {
 		let sendData = {
@@ -27,11 +30,35 @@ let boardInit = {
 		});
 
 	},
+	update: function() {
+		let boardId = $("#board--id").val();
+		let sendData = {
+			id: boardId,
+			title: $('#title').val(),
+			content: $('#content').val()
+		}
+
+		$.ajax({
+			type: 'PUT',
+			url: '/api/board/update/' + boardId,
+			data: JSON.stringify(sendData),
+			contentType: "application/json;charset=UTF-8",
+			dataType: "json"
+		}).done(function(data, textStatus, xhr) {
+			alert("글 수정 완료");
+			console.log(data);
+			location.href = "/board/list"
+		}).fail(function(error) {
+			console.log(error);
+			alert("글 수정 실패");
+		});
+
+	},
 	delete: function() {
 		
 		let boardId = $('#board--Id').val();
 		console.log(boardId);
-		
+
 		$.ajax({
 			type: 'DELETE',
 			url: '/api/board/delete/' + boardId,

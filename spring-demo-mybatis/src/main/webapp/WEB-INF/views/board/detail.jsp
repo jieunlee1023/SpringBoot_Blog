@@ -29,7 +29,7 @@
 		</div>
 		<c:if test="${isWriter eq true }">
 			<div>
-				<button type="button" id="board--update" class="btn btn-warning">update</button>
+				<a href="/board/modify/${boardData.id }" type="button" id="board--update" class="btn btn-warning">update</a>
 				<button type="button" id="board--delete" class="btn btn-danger">delete</button>
 				<input type="hidden" value="${boardData.id }" id="board--Id">
 			</div>

@@ -33,8 +33,16 @@
 	<delete id="delete" parameterType="Integer">
 		DELETE
 		FROM board
-		WHERE id =#{boardId};
+		WHERE id
+		=#{boardId};
 	</delete>
+
+	<update id="modifyByBoardId"
+		parameterType="com.demo.mybatis.model.dto.common.BoardDto">
+		UPDATE board
+		SET title = #{title},  content = #{content}
+		WHERE id = #{id};
+	</update>
 
 
 </mapper>

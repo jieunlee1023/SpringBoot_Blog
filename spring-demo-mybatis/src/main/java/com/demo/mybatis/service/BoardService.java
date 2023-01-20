@@ -36,5 +36,13 @@ public class BoardService {
 		return boardDAO.delete(boardId);
 	}
 	
+
+	@Transactional
+	public int modifyBoard(BoardDto boardDto) {
+		return boardDAO.modifyByBoardId(boardDto);
+	}
+	
+	
+	
 }
 

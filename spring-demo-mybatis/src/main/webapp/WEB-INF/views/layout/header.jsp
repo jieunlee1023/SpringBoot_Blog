@@ -26,14 +26,14 @@
 			<!-- Navbar links -->
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 				<ul class="navbar-nav">
-					<li class="nav-item"><a class="nav-link" href="/board/list">Home</a></li>
 					<c:choose>
 					<c:when test="${sessionScope.principal eq null }">
 						<li class="nav-item"><a class="nav-link" href="/user/signin-form">Sign in</a></li>
 						<li class="nav-item"><a class="nav-link" href="/user/signup-form">Sign up</a></li>
+						<li class="nav-item"><a class="nav-link" href="/auth/board/write-form">Write</a></li>
 					</c:when>
 					<c:otherwise>
-						<li class="nav-item"><a class="nav-link" href="/board/write-form">Write</a></li>
+						<li class="nav-item"><a class="nav-link" href="/auth/board/write-form">Write</a></li>
 						<li class="nav-item"><a class="nav-link" href="/user/logout">Logout</a></li>
 					</c:otherwise>
 					</c:choose>
